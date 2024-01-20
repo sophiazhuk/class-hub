@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+html { 
+    background-color: #efe5d3;
+  }
+  /* html { 
+    background: url(images/aiwall2.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  } */
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#banner img{
+    height: 250px;
+    width: auto;
+}
+
+.sign {
+    background-color: #a67437;
+    padding: 20px;
+    font-size: 32px;
+    margin: 30px;
+}
+.sign a {
+    color: white;
+}
+.sign:hover{
+    background-color: #5c4120;
+}
+
+#map {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border: 3px solid brown;
+    border-radius: 5px;
+    background-color: white;
+    height: 375px;
+    width: 550px;
+
+}
+#map {
+   border:15px groove #e8c86e;
+   border-radius: 2px;
+   src:"//www.html.am/images/image-codes/milford_sound_t.jpg"; 
+   box-shadow: 0px 5px 8px #5c4120;
+}
+
+.album {
+    border:15px groove #e8c86e;
+    border-radius: 2px;
+    src:"//www.html.am/images/image-codes/milford_sound_t.jpg"; 
+    /* box-shadow: 0px 5px 8px #5c4120; */
+    margin-right: 30px;
+    height: 280px;
+    width: 280px;
+    margin-bottom: 100px;
+ }
+ .album p {
+    margin-top: 25px;
+    font-size: 20px;
+ }
+ .album img {
+    width:250px;
+    height: 250px;
+ }
+ .gallery {
+    display: flex;
+    flex-direction: row;
+ }
+.map_graphic img {
+    width: 700px;
+    height: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#curator img{
+    position: absolute;
+    bottom: 300px;
+    left: 200px;
+    height: 300px;
+    width: auto;
+}
+li a {
+    font-weight: bolder;
+}

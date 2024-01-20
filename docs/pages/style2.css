@@ -1,0 +1,487 @@
+body {
+	margin: 0; 	padding: 0;
+	font: normal .80em/1.6em Verdana, Tahoma, sans-serif;
+	font-family: monospace, serif;
+	color: #ffffff;
+	background-image: url(/images/portrait-background-image.png);
+	min-width: 630px ;
+
+}
+
+
+/* WRAPS */
+#wrap {
+    background-color: rgba(0, 0, 0, 0.815);
+	margin: 0px auto 0 auto;	
+	text-align: left;		
+  	border: solid #ffffff;
+	border-width: 1px 1px 1px 1px;
+    
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+
+}	
+
+#header-wrap {
+    background-color: rgba(0, 0, 0, 0.476);
+	margin: 20px auto 0 auto;			
+    border: solid #ffffff;
+	border-width: 1px 1px 1px 1px;
+    
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}	
+
+#footer-wrap {
+	margin: 0px auto 0 auto;
+	text-align: left;		
+    
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}	
+
+#wrap, #footer-wrap, #header-wrap {
+	width: 850px;
+}
+
+
+
+/* CONTAINERS*/
+ul.songs {
+    list-style-type: none;
+    padding: 0;
+    display:block;
+}
+ol.songs {
+    padding: 0;
+    display:block;
+}
+ul.songs li{
+    display: flex;
+    align-items: center;
+    
+    justify-content: flex-start;
+}
+
+
+ol.songs li img {
+    height:auto;
+    width:40px;
+    border:0px;
+    margin:0 10px 0 0;
+
+}
+ul.songs li img {
+    height:auto;
+    width:40px;
+    border:0px;
+    margin:0 10px 0 0;
+
+}
+img.gif{
+	border: 0px;
+	max-width: 200%;
+	max-height: 200%;
+}
+img {
+    border: 1px solid white;
+    padding:1px;
+}
+
+
+#sidebar {
+    border-width: 0px 1px 1px 1px;
+    padding: 10px;
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    padding: 20px;
+    
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    width:100% ;
+    margin:20px 20px 20px 0;
+}
+
+.entry-head {
+    display: flex;
+
+}
+.entry-head h1 {
+    padding: 0px;
+    margin: 0px 15px 10px 0px;
+}
+
+.box {
+    border: 1px;
+    border: solid white;
+    text-align: left;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .date {
+   color: rgb(159, 159, 159);
+   font-size: 1.2em;
+   align-items: end;
+  }
+#banner {
+    text-align:center;
+    border:0px;
+    height: 150px;
+}
+
+/* IMAGES */
+
+
+
+
+/* Gallery v2 */
+      /* Hide all images except the first one */
+      .gallery-img:not(:first-child) {
+        display: none;
+      }
+      .img-wrapper {
+
+        border: 1px solid white;
+        padding: 1px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        height: 200px;
+        width: 300px;
+        overflow: hidden;
+      }
+      .iframe-wrapper {
+
+        border: 1px solid white;
+        padding: 1px;
+        margin: 15px;
+        display: flex;
+        justify-content: center;
+        height: 380px;
+        width:100%;
+        overflow: hidden;
+      }
+      .gallery-img {
+        height: 100%;
+      }
+      .gallery-iframe {
+        height: 380px;
+        width:100%;
+      }
+
+      .gallery {
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .gallery-menu a{
+        height: 100%;
+        display: flex;	
+        align-items: center;
+        padding: 10px 10px 10px 15px;   
+        text-decoration: none;
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;  
+        border-bottom: 1px solid white;
+      }
+      .gallery-menu a:hover {
+        text-decoration: none;
+      }
+      .gallery-menu {
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+        border-right:1px solid black;
+        float: left;
+        width: 140px;
+        margin: 0;
+        height: 100%;
+        border-right: 1px solid white;
+      }
+      .gallery-box {
+        border: 1px;
+        border: solid white;
+        text-align: left;
+        margin: 20px;
+        padding: 0px;
+    
+        display: flex;
+        flex-direction: column;
+      }
+
+
+/* TEXTS */
+ul {
+    margin-top: 10px;
+    margin-bottom:10px;
+}
+#footer-text {
+    padding-right: 20px;
+    font-weight: bolder;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+#sidebar ul{
+	display: inline;
+	list-style: none;	
+    padding: 0;
+}
+
+#sidebar li {
+    padding: 5px 10px 5px 15px;  
+}
+#sidebar li a{
+    font-size: 16px;
+    font-weight: bold;	
+    text-decoration: none; 
+    
+}
+#sidebar li a:hover{
+    color: rgb(238, 255, 0) ;
+    font-size: 16px;
+    font-weight: bold;	
+    text-decoration: none; 
+    
+    
+}
+.squiggle {
+    text-align: center;
+    font-weight:bolder ;
+    margin: 0;
+}
+
+.review-bio {
+    text-align: justify;
+}
+.review-bio h3, p{
+    margin: 0px 0px 5px 0px;
+}
+
+/* links */
+#sidebar a {
+	color: #FFF;
+	background-color: inherit;
+	text-decoration: none;
+}
+#sidebar a.grout {
+    color: rgb(125, 125, 125);
+}
+#sidebar a.grout:hover {
+    color: rgb(125, 125, 125);
+    cursor: default;
+}
+a {
+    color: rgb(238, 255, 0);
+    text-decoration: none;
+}
+.box a {
+    text-decoration: underline;
+}
+a:hover {
+	color: rgb(238, 255, 0);
+	background-color: inherit;	
+	text-decoration: none;
+	cursor: pointer;
+}
+
+h1 {
+    text-align: center;
+}
+.header h1{
+    text-align: left;
+}
+
+/* PROFILE */
+#profile {
+    margin: 15px;
+}
+#profile img {
+    width: 80px;
+    align-self:center;
+    margin-bottom: 10px;
+}
+#profile a{
+    color:#FFF;
+}
+#profile a:hover{
+    color: rgb(238, 255, 0);
+}
+
+/*
+ accordian collapsible i got from codeconvey.com
+*/
+.accordion > input[name="collapse"] {
+    display: none;
+    
+    /*position: absolute;
+    left: -100vw;*/
+}
+
+.accordion label,
+.accordion .content{
+
+    margin: 0 auto;
+    border: solid #ffffff;
+    margin: 0px 20px 0px 20px;
+}
+
+
+.accordion .content {
+    overflow: hidden;
+    overflow-y: hidden;
+    height: 0;
+    padding:0 20 0 20;
+    transition: 0.5s;
+}
+
+.content img, label img {
+    float: left;
+    width: 80px;
+    height: auto;
+    margin-right: 20px;
+}
+.content p {
+   text-align: justify;
+}
+
+.content h3 {
+    margin-top: 0px;
+}
+
+.accordion > input[name="collapse"]:checked ~ .content {
+    height: 380px;
+    transition: height 0.5s;
+}
+
+.accordion label {
+    display: flex;
+    border-bottom: 0px;
+}
+
+/* For Desktop */
+@media only screen and (min-width: 550px){
+
+
+.accordion > input[name="collapse"]:checked ~ .content {
+    height: fit-content;
+}
+
+}
+
+.accordion {
+    margin-bottom: 1em;
+}
+
+.accordion > input[name="collapse"]:checked ~ .content {
+    border-top: 0;
+    transition: 0.3s;
+}
+
+.accordion .handle {
+    margin: 0;
+    font-size: 16px;
+    
+}
+
+.accordion label {
+    color: #fff;
+    cursor: pointer;
+    font-weight: normal;
+    padding: 15px 10px 15px 10px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    
+}
+
+
+
+.accordion .handle label:before {
+    content: "⊳ ";
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1.556em;
+    vertical-align: middle;
+    transition: 0.4s;
+    margin-right: 10px;
+    
+}
+
+.accordion > input[name="collapse"]:checked ~ .handle label:before {
+        transform: rotate(90deg);
+        transform-origin: center;
+        transition: 0.4s;
+}
+
+#index ul{
+	display: inline;
+	list-style: none;	
+    padding: 0;
+}
+
+#index li {
+    padding: 5px 10px 5px 15px;  
+}
+#index li a {
+    font-size: 16px;
+    font-weight: bold;	
+    text-decoration: none; 
+    color: #FFF;
+}
+
+#index li a:hover{
+    color: rgb(238, 255, 0) ;
+    font-size: 16px;
+    font-weight: bold;	
+    text-decoration: none; 
+    
+}
+
+
+#project-container {
+    /* border: 3px dashed red; */
+    width: 90%;
+    flex-direction: column;
+}
+
+#project-container a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.project {
+    border-bottom: 1px solid #f0f6f0;
+    border-top: 1px solid #f0f6f0;
+    border-left: 2px solid #f0f6f0;
+    border-right: 2px solid #f0f6f0;
+    font-size: 2rem;
+    padding: 30px;
+    transition : transform .2s ease-in-out;
+}
+
+.project:hover {
+    background-color: #f0f6f0;
+    color: black;
+    cursor: pointer;
+    transform:translateX(70px)
+}
+
+.grout {
+    color: rgb(125, 125, 125);
+}
+
+#header-wrap h1{
+    color: white;
+    text-decoration: none;
+}
