@@ -3,7 +3,7 @@ body {
 	font: normal .80em/1.6em Verdana, Tahoma, sans-serif;
 	font-family: monospace, serif;
 	color: #ffffff;
-	background-image: url(/images/portrait-background-image.png);
+	background-image: url(../../images/portrait-background-image.png);
 	min-width: 630px ;
 
 }
