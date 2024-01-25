@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    font-family: monospace;
+    margin: 100px 0px;
+    background-color: salmon;
+    
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #ffc697;
+    padding: 5%;
+}
+
+.window {
+    width: 600px;
+    height: 400px;
+    background-color: rgb(135, 206, 250);
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: solid 3px white;
+}
+.window:after {
+    content: " ";
+    z-index: 10;
+    display: block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-image: url(images/stars.png);
+  }
+.tree{
+    width: 300px;
+    height: auto;
+    z-index: 100;
+}
+
+.clock {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+    position: relative;
+    border: 2px solid black;
+}
+
+.number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    font-weight: bold;
+}
+.bird {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+#one {
+    transform: rotate(30deg) translate(0, -80px) rotate(-30deg);
+}
+
+#two {
+    transform: rotate(60deg) translate(0, -80px) rotate(-60deg);
+}
+
+#three {
+    transform: rotate(90deg) translate(0, -80px) rotate(-90deg);
+}
+
+#four {
+    transform: rotate(120deg) translate(0, -80px) rotate(-120deg);
+}
+
+#five {
+    transform: rotate(150deg) translate(0, -80px) rotate(-150deg);
+}
+
+#six {
+    transform: rotate(180deg) translate(0, -80px) rotate(-180deg);
+}
+
+#seven {
+    transform: rotate(210deg) translate(0, -80px) rotate(-210deg);
+}
+
+#eight {
+    transform: rotate(240deg) translate(0, -80px) rotate(-240deg);
+}
+
+#nine {
+    transform: rotate(270deg) translate(0, -80px) rotate(-270deg);
+}
+
+#ten {
+    transform: rotate(300deg) translate(0, -80px) rotate(-300deg);
+}
+
+#eleven {
+    transform: rotate(330deg) translate(0, -80px) rotate(-330deg);
+}
+
+#twelve {
+    transform: rotate(360deg) translate(0, -80px) rotate(-360deg);
+}
