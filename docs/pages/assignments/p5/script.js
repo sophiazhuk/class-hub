@@ -1,6 +1,5 @@
 function setup() {
     createCanvas(400, 400);
-    cnv.style('display', 'block');
   }
   
   function draw() {
