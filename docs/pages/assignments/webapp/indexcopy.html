@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-        <!-- Bootstrap CSS -->
+        <!-- bootstrap bss -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
-        <!-- Bootstrap core JavaScript -->
+        <!-- bootstrap js -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+        
+        <!-- style haha -->
         <style>
             .map {
                 position: relative;
                 height: 1000px;
                 width: 100%;
-                background-image: url('images/map2.webp'); /* Adjust the path to your map image */
+                background-image: url('images/map2.webp'); 
                 background-size: cover;
                 background-position: center;
-                overflow: hidden; /* Ensure overflow is hidden to hide pseudo-element */
+                overflow: hidden;
             }
-    
             .map:before {
                 content: "";
                 position: absolute;
@@ -34,28 +33,23 @@
                 background-image: inherit;
                 background-size: cover;
                 background-position: center;
-                
-                transition: filter 0.5s; /* Add transition for smooth effect */
+                transition: 0.5s; 
             }
-    
             .map-section {
                 position: absolute;
                 cursor: pointer;
-                backdrop-filter: blur(10px); /* Initial blur effect on sections */
-                transition: backdrop-filter 0.5s; /* Add transition for smooth effect */
-                border-radius: 50%; /* Make the sections circles */
+                backdrop-filter: blur(10px);
+                transition: backdrop-filter 0.5s; 
+                border-radius: 50%; 
                 width: 25%;
                 height: 83px;
-                background-color: rgb(163, 34, 34); /* Grey color with full opacity */
+                background-color: rgb(163, 34, 34); 
             }
-
             .map-section.clicked {
-                backdrop-filter: blur(0px); /* Remove blur on clicked sections */
-                background-color: rgba(220, 220, 220, 0); /* Fully transparent */
+                backdrop-filter: blur(0px);
+                background-color: rgba(220, 220, 220, 0); 
                 display: none;
             }
-    
-            /* Add styles for each section */
             .section {
                 width: 60px;
                 height: 60px;
@@ -72,9 +66,9 @@
         </style>
         <title>Campus Trivia</title>
     </head>
+
+    <!-- html -->
 <body>
-
-
 
     <main role="main">
         <section class="jumbotron text-center">
@@ -85,7 +79,6 @@
         </section>
 
         <div class="map" id="map">
-
                 <div class="map-section section section1" data-section="section1"></div>
                 <div class="map-section section section2" data-section="section2"></div>
                 <div class="map-section section section3" data-section="section3"></div>
@@ -93,14 +86,13 @@
                 <div class="map-section section section5" data-section="section5"></div>
                 <div class="map-section section section6" data-section="section6"></div>
                 <div class="map-section section section7" data-section="section7"></div>
-
             </div>
     </main>
 
     <footer class="text-muted">
-
     </footer>
-    <!-- Trivia -->
+
+    <!-- trivia -->
     <div class="modal fade" id="triviaModal" tabindex="-1" role="dialog" aria-labelledby="triviaModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -122,21 +114,18 @@
         </div>
     </div>
 
+    <!-- js -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var sections = document.querySelectorAll('.map-section');
     
             sections.forEach(function (section, index) {
                 section.addEventListener('click', function () {
-                    // Set a different question and answers for each section (customize as needed)
                     var questionAndAnswers = getQuestionAndAnswersBySection(index + 1);
     
-                    // Update the question and answers in the modal
                     document.getElementById('questionText').textContent = questionAndAnswers.question;
     
                     var answerButtons = document.querySelectorAll('.answer-option');
-    
-                    // Randomize the order of the answers
                     var randomizedAnswers = questionAndAnswers.answers.slice().sort(() => Math.random() - 0.5);
     
                     answerButtons.forEach(function (button, i) {
@@ -150,37 +139,29 @@
                         }
                     });
     
-                    // Show the trivia modal when a section is clicked
                     $('#triviaModal').modal('show');
                 });
             });
         });
     
-        // Function to check the answer (customize as needed)
         function checkAnswer(clickedButton) {
-    // You can customize this function based on your requirements
     if (clickedButton.dataset.correct === 'true') {
-        // Correct answer: turn the selected option green
         clickedButton.classList.remove('btn-secondary');
         clickedButton.classList.add('btn-success');
 
-        // Hide the blurred section after a correct answer
         var blurredSection = document.querySelector('.map-section.clicked');
         if (blurredSection) {
-            blurredSection.style.opacity = '0'; // Set opacity to 0 for complete transparency
+            blurredSection.style.opacity = '0'; 
             blurredSection.classList.remove('clicked');
         }
     } else {
-        // Incorrect answer: turn the selected option red
         clickedButton.classList.remove('btn-secondary');
         clickedButton.classList.add('btn-danger');
     }
 
-    // Close the trivia modal after a short delay (customize as needed)
     setTimeout(function () {
         $('#triviaModal').modal('hide');
 
-        // Reset button colors and opacity after closing the modal
         var answerButtons = document.querySelectorAll('.answer-option');
         answerButtons.forEach(function (button) {
             button.classList.remove('btn-success', 'btn-danger');
@@ -188,17 +169,14 @@
             button.dataset.correct = '';
         });
 
-        // Reset the opacity of all map-sections
         var allSections = document.querySelectorAll('.map-section');
         allSections.forEach(function (section) {
-            section.style.opacity = '1'; // Reset opacity to 1
+            section.style.opacity = '1'; 
         });
     }, 1000);
 }
     
-        // Function to get a question and answers based on the section
         function getQuestionAndAnswersBySection(sectionNumber) {
-            // Customize this function to return different questions and answers for each section
             switch (sectionNumber) {
                 case 1:
                     return {
