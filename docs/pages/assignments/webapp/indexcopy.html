@@ -1,74 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+        <!-- Bootstrap core JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+        <style>
+            .map {
+                position: relative;
+                height: 1000px;
+                width: 100%;
+                background-image: url('images/map2.webp'); /* Adjust the path to your map image */
+                background-size: cover;
+                background-position: center;
+                overflow: hidden; /* Ensure overflow is hidden to hide pseudo-element */
+            }
+    
+            .map:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: inherit;
+                background-size: cover;
+                background-position: center;
+                
+                transition: filter 0.5s; /* Add transition for smooth effect */
+            }
+    
+            .map-section {
+                position: absolute;
+                cursor: pointer;
+                backdrop-filter: blur(10px); /* Initial blur effect on sections */
+                transition: backdrop-filter 0.5s; /* Add transition for smooth effect */
+                border-radius: 50%; /* Make the sections circles */
+                width: 25%;
+                height: 83px;
+                background-color: rgb(163, 34, 34); /* Grey color with full opacity */
+            }
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <style>
-        .map {
-            position: relative;
-            height: 1000px;
-            width: 100%;
-            background-image: url('images/map2.webp'); /* Adjust the path to your map image */
-            background-size: cover;
-            background-position: center;
-            overflow: hidden; /* Ensure overflow is hidden to hide pseudo-element */
-        }
-
-        .map:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: inherit;
-            background-size: cover;
-            background-position: center;
-            
-            transition: filter 0.5s; /* Add transition for smooth effect */
-        }
-
-        .map-section {
-            position: absolute;
-            cursor: pointer;
-            backdrop-filter: blur(10px); /* Initial blur effect on sections */
-            transition: backdrop-filter 0.5s; /* Add transition for smooth effect */
-            border-radius: 50%; /* Make the sections circles */
-            width: 25%;
-            height: 83px;
-        }
-
-        .map-section.clicked {
-            backdrop-filter: blur(0px); /* Remove blur on clicked sections */
-        }
-
-        /* Add styles for each section */
-        .section {
-            width: 60px;
-            height: 60px;
-        }
-
-        .section1 { top: 10%; left: 49%; }
-        .section2 { top: 25%; left: 50%; }
-        .section3 { top: 35%; left: 54%; }
-        .section4 { top: 48%; left: 52%; }
-
-        /* .section5 { top: 44%; left: 25%; } */
-        .section6 { top: 61%; left: 11%; }
-        .section7 { top: 74%; left: 47%; }
-    </style>
-    <title>Campus Trivia</title>
-</head>
+            .map-section.clicked {
+                backdrop-filter: blur(0px); /* Remove blur on clicked sections */
+                background-color: rgba(220, 220, 220, 0); /* Fully transparent */
+                display: none;
+            }
+    
+            /* Add styles for each section */
+            .section {
+                width: 60px;
+                height: 60px;
+            }
+    
+            .section1 { top: 10%; left: 49%; }
+            .section2 { top: 25%; left: 50%; }
+            .section3 { top: 35%; left: 54%; }
+            .section4 { top: 48%; left: 52%; }
+            .section5 { top: 44%; left: 25%; }
+            .section6 { top: 61%; left: 11%; }
+            .section7 { top: 74%; left: 47%; }
+    
+        </style>
+        <title>Campus Trivia</title>
+    </head>
 <body>
 
     <header>
@@ -107,7 +110,7 @@
         <section class="jumbotron text-center">
             <div class="container">
                 <h1 class="jumbotron-heading">Explore the Campus</h1>
-                <p class="lead text-muted">Click on the map sections to unlock areas of the campus!</p>
+                <p class="lead text-muted">Click on the blurred map sections to unlock areas of the campus!</p>
             </div>
         </section>
 
@@ -125,13 +128,7 @@
     </main>
 
     <footer class="text-muted">
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-            <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
-        </div>
+
     </footer>
     <!-- Trivia -->
     <div class="modal fade" id="triviaModal" tabindex="-1" role="dialog" aria-labelledby="triviaModalLabel" aria-hidden="true">
@@ -191,37 +188,43 @@
     
         // Function to check the answer (customize as needed)
         function checkAnswer(clickedButton) {
-            // You can customize this function based on your requirements
-            if (clickedButton.dataset.correct === 'true') {
-                // Correct answer: turn the selected option green
-                clickedButton.classList.remove('btn-secondary');
-                clickedButton.classList.add('btn-success');
-    
-                // Hide the blurred section after a correct answer
-                var blurredSection = document.querySelector('.map-section.clicked');
-                if (blurredSection) {
-                    blurredSection.style.display = 'none';
-                    blurredSection.classList.remove('clicked');
-                }
-            } else {
-                // Incorrect answer: turn the selected option red
-                clickedButton.classList.remove('btn-secondary');
-                clickedButton.classList.add('btn-danger');
-            }
-    
-            // Close the trivia modal after a short delay (customize as needed)
-            setTimeout(function () {
-                $('#triviaModal').modal('hide');
-    
-                // Reset button colors after closing the modal
-                var answerButtons = document.querySelectorAll('.answer-option');
-                answerButtons.forEach(function (button) {
-                    button.classList.remove('btn-success', 'btn-danger');
-                    button.classList.add('btn-secondary');
-                    button.dataset.correct = '';
-                });
-            }, 1000);
+    // You can customize this function based on your requirements
+    if (clickedButton.dataset.correct === 'true') {
+        // Correct answer: turn the selected option green
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-success');
+
+        // Hide the blurred section after a correct answer
+        var blurredSection = document.querySelector('.map-section.clicked');
+        if (blurredSection) {
+            blurredSection.style.opacity = '0'; // Set opacity to 0 for complete transparency
+            blurredSection.classList.remove('clicked');
         }
+    } else {
+        // Incorrect answer: turn the selected option red
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-danger');
+    }
+
+    // Close the trivia modal after a short delay (customize as needed)
+    setTimeout(function () {
+        $('#triviaModal').modal('hide');
+
+        // Reset button colors and opacity after closing the modal
+        var answerButtons = document.querySelectorAll('.answer-option');
+        answerButtons.forEach(function (button) {
+            button.classList.remove('btn-success', 'btn-danger');
+            button.classList.add('btn-secondary');
+            button.dataset.correct = '';
+        });
+
+        // Reset the opacity of all map-sections
+        var allSections = document.querySelectorAll('.map-section');
+        allSections.forEach(function (section) {
+            section.style.opacity = '1'; // Reset opacity to 1
+        });
+    }, 1000);
+}
     
         // Function to get a question and answers based on the section
         function getQuestionAndAnswersBySection(sectionNumber) {
