@@ -225,18 +225,67 @@
             <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
         </div>
     </footer>
+    <!-- Trivia Modal -->
+    <div class="modal fade" id="triviaModal" tabindex="-1" role="dialog" aria-labelledby="triviaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="triviaModalLabel">Trivia Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="questionText">This is a sample trivia question?</p>
+                    <div class="btn-group-vertical w-100" role="group" aria-label="Answer Options">
+                        <button type="button" class="btn btn-secondary answer-option" onclick="checkAnswer(this)">Option 1</button>
+                        <button type="button" class="btn btn-secondary answer-option" onclick="checkAnswer(this)">Option 2</button>
+                        <button type="button" class="btn btn-secondary answer-option" onclick="checkAnswer(this)">Option 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var sections = document.querySelectorAll('.map-section');
 
-            sections.forEach(function (section) {
+            sections.forEach(function (section, index) {
                 section.addEventListener('click', function () {
-                    // Toggle the 'clicked' class on the section
-                    section.classList.toggle('clicked');
+                    // Set a different question for each section (customize as needed)
+                    var question = getQuestionBySection(index + 1);
+
+                    // Update the question in the modal
+                    document.getElementById('questionText').textContent = question;
+
+                    // Show the trivia modal when a section is clicked
+                    $('#triviaModal').modal('show');
                 });
             });
         });
+
+        // Function to check the answer (customize as needed)
+        function checkAnswer(clickedButton) {
+            // You can customize this function based on your requirements
+            var selectedAnswer = clickedButton.textContent;
+            alert('You selected: ' + selectedAnswer);
+            $('#triviaModal').modal('hide');
+        }
+
+        // Function to get a question based on the section
+        function getQuestionBySection(sectionNumber) {
+            // Customize this function to return different questions for each section
+            switch (sectionNumber) {
+                case 1:
+                    return 'Question for Section 1?';
+                case 2:
+                    return 'Question for Section 2?';
+                // Add more cases for other sections
+                default:
+                    return 'Default Question';
+            }
+        }
     </script>
 </body>
 </html>
