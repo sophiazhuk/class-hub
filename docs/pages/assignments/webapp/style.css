@@ -1,9 +1,12 @@
 .map {
     background-image: url('images/map.png');
-    background-color: #ae0202;
+    /* background-color: #ae0202;
     background-size:390px auto;
     background-repeat: no-repeat;
     background-position: center;
-    background-position-y: top;
+    background-position-y: top; */
     height: 1000px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
 }
