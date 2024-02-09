@@ -18,7 +18,7 @@
             position: relative;
             height: 1000px;
             width: 100%;
-            background-image: url('images/map2.png'); /* Adjust the path to your map image */
+            background-image: url('images/map2.webp'); /* Adjust the path to your map image */
             background-size: cover;
             background-position: center;
             overflow: hidden; /* Ensure overflow is hidden to hide pseudo-element */
@@ -54,18 +54,18 @@
 
         /* Add styles for each section */
         .section {
-            width: 83px;
-            height: 83px;
+            width: 60px;
+            height: 60px;
         }
 
-        .section1 { top: 0; left: 0; }
-        .section2 { top: 25%; left: 0; }
-        .section3 { top: 50%; left: 0; }
-        .section4 { top: 75%; left: 0; }
+        .section1 { top: 10%; left: 49%; }
+        .section2 { top: 25%; left: 50%; }
+        .section3 { top: 35%; left: 54%; }
+        .section4 { top: 48%; left: 52%; }
 
-        .section5 { top: 0; left: 25%; }
-        .section6 { top: 25%; left: 25%; }
-        .section7 { top: 50%; left: 25%; }
+        /* .section5 { top: 44%; left: 25%; } */
+        .section6 { top: 61%; left: 11%; }
+        .section7 { top: 74%; left: 47%; }
     </style>
     <title>Campus Trivia</title>
 </head>
@@ -158,53 +158,126 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var sections = document.querySelectorAll('.map-section');
-
+    
             sections.forEach(function (section, index) {
                 section.addEventListener('click', function () {
-                    // Set a different question for each section (customize as needed)
-                    var question = getQuestionBySection(index + 1);
-
-                    // Update the question in the modal
-                    document.getElementById('questionText').textContent = question;
-
+                    // Set a different question and answers for each section (customize as needed)
+                    var questionAndAnswers = getQuestionAndAnswersBySection(index + 1);
+    
+                    // Update the question and answers in the modal
+                    document.getElementById('questionText').textContent = questionAndAnswers.question;
+    
+                    var answerButtons = document.querySelectorAll('.answer-option');
+    
+                    // Randomize the order of the answers
+                    var randomizedAnswers = questionAndAnswers.answers.slice().sort(() => Math.random() - 0.5);
+    
+                    answerButtons.forEach(function (button, i) {
+                        button.textContent = randomizedAnswers[i];
+                        button.classList.remove('btn-success', 'btn-danger');
+                        button.classList.add('btn-secondary');
+                        if (randomizedAnswers[i] === questionAndAnswers.correctAnswer) {
+                            button.dataset.correct = true;
+                        } else {
+                            button.dataset.correct = false;
+                        }
+                    });
+    
                     // Show the trivia modal when a section is clicked
                     $('#triviaModal').modal('show');
                 });
             });
         });
-
+    
         // Function to check the answer (customize as needed)
-        function checkAnswer(clickedButton, isCorrect) {
+        function checkAnswer(clickedButton) {
             // You can customize this function based on your requirements
-            if (isCorrect) {
+            if (clickedButton.dataset.correct === 'true') {
                 // Correct answer: turn the selected option green
                 clickedButton.classList.remove('btn-secondary');
                 clickedButton.classList.add('btn-success');
+    
+                // Hide the blurred section after a correct answer
+                var blurredSection = document.querySelector('.map-section.clicked');
+                if (blurredSection) {
+                    blurredSection.style.display = 'none';
+                    blurredSection.classList.remove('clicked');
+                }
             } else {
                 // Incorrect answer: turn the selected option red
                 clickedButton.classList.remove('btn-secondary');
                 clickedButton.classList.add('btn-danger');
             }
-
+    
             // Close the trivia modal after a short delay (customize as needed)
             setTimeout(function () {
                 $('#triviaModal').modal('hide');
+    
+                // Reset button colors after closing the modal
+                var answerButtons = document.querySelectorAll('.answer-option');
+                answerButtons.forEach(function (button) {
+                    button.classList.remove('btn-success', 'btn-danger');
+                    button.classList.add('btn-secondary');
+                    button.dataset.correct = '';
+                });
             }, 1000);
         }
-
-        // Function to get a question based on the section
-        function getQuestionBySection(sectionNumber) {
-            // Customize this function to return different questions for each section
+    
+        // Function to get a question and answers based on the section
+        function getQuestionAndAnswersBySection(sectionNumber) {
+            // Customize this function to return different questions and answers for each section
             switch (sectionNumber) {
                 case 1:
-                    return 'What is the capital of France?';
+                    return {
+                        question: 'What is the chain restaurant featured in the VU?',
+                        answers: ['Subway', 'Panda Express', 'Starbucks'],
+                        correctAnswer: 'Subway'
+                    };
                 case 2:
-                    return 'Which planet is known as the Red Planet?';
-                // Add more cases for other sections
+                    return {
+                        question: 'What is the centerpiece of the Red Square?',
+                        answers: ['Fountain', 'Tree', 'Sculpture'],
+                        correctAnswer: 'Fountain'
+                    };
+                case 3:
+                    return {
+                        question: 'What is on display in the Environmental Studies building?',
+                        answers: ['Minerals', 'Aquarium', 'Insects'],
+                        correctAnswer: 'Minerals'
+                    };
+                case 4:
+                    return {
+                        question: 'What chain restaurant is located in the Artezen Hall?',
+                        answers: ['Starbucks', 'Subway', 'Zoes Bagels'],
+                        correctAnswer: 'Starbucks'
+                    };
+                case 5:
+                    return {
+                        question: 'How many floors does the Recreation Center have? (Accessible to students)',
+                        answers: ['2', '1', '3'],
+                        correctAnswer: '2'
+                    };
+                case 6:
+                    return {
+                        question: 'How many floors does the Recreation Center have? (Accessible to students)',
+                        answers: ['2', '1', '3'],
+                        correctAnswer: '2'
+                    };
+                case 7:
+                    return {
+                        question: 'What is the iconic centerpiece of Fairhaven Complex?',
+                        answers: ['Pond', 'Park', 'Sculpture'],
+                        correctAnswer: 'Pond'
+                    };
                 default:
-                    return 'Default Question';
+                    return {
+                        question: 'Default Question',
+                        answers: ['Option 1', 'Option 2', 'Option 3'],
+                        correctAnswer: 'Option 1'
+                    };
             }
         }
     </script>
+
 </body>
 </html>
