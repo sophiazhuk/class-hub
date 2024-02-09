@@ -10,7 +10,7 @@
 .map-section {
     position: absolute;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.5); /* Add a background color for visibility */
+    
 }
 
 .section1 {

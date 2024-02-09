@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <style>
+        .map {
+            position: relative;
+            height: 1000px;
+            width: 100%;
+            background-image: url('images/map.png'); /* Adjust the path to your map image */
+            background-size: cover;
+            background-position: center;
+            overflow: hidden; /* Ensure overflow is hidden to hide pseudo-element */
+        }
+
+        .map:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: inherit;
+            background-size: cover;
+            background-position: center;
+            
+            transition: filter 0.5s; /* Add transition for smooth effect */
+        }
+
+        .map-section {
+    position: absolute;
+    cursor: pointer;
+    backdrop-filter: blur(10px); /* Initial blur effect on sections */
+    transition: backdrop-filter 0.5s; /* Add transition for smooth effect */
+    border-radius: 50%; /* Make the sections circles */
+}
+
+    .map-section.clicked {
+        backdrop-filter: blur(0px); /* Remove blur on clicked sections */
+    }
+
+        /* Add styles for each section */
+        .section {
+            width: 25%;
+            height: 83px;
+        }
+
+        .section1 { top: 0; left: 0; }
+        .section2 { top: 83px; left: 0; }
+        .section3 { top: 166px; left: 0; }
+        .section4 { top: 249px; left: 0; }
+
+        .section5 { top: 0; left: 25%; }
+        .section6 { top: 83px; left: 25%; }
+        .section7 { top: 166px; left: 25%; }
+        .section8 { top: 249px; left: 25%; }
+
+        .section9 { top: 0; left: 50%; }
+        .section10 { top: 83px; left: 50%; }
+        .section11 { top: 166px; left: 50%; }
+        .section12 { top: 249px; left: 50%; }
+
+        .section13 { top: 0; left: 75%; }
+        .section14 { top: 83px; left: 75%; }
+        .section15 { top: 166px; left: 75%; }
+        .section16 { top: 249px; left: 75%; }
+
+        .section17 { top: 332px; left: 0; }
+        .section18 { top: 415px; left: 0; }
+        .section19 { top: 498px; left: 0; }
+        .section20 { top: 581px; left: 0; }
+
+        .section21 { top: 332px; left: 25%; }
+        .section22 { top: 415px; left: 25%; }
+        .section23 { top: 498px; left: 25%; }
+        .section24 { top: 581px; left: 25%; }
+
+        .section25 { top: 332px; left: 50%; }
+        .section26 { top: 415px; left: 50%; }
+        .section27 { top: 498px; left: 50%; }
+        .section28 { top: 581px; left: 50%; }
+
+        .section29 { top: 332px; left: 75%; }
+        .section30 { top: 415px; left: 75%; }
+        .section31 { top: 498px; left: 75%; }
+        .section32 { top: 581px; left: 75%; }
+
+        .section33 { top: 664px; left: 0; }
+        .section34 { top: 747px; left: 0; }
+        .section35 { top: 830px; left: 0; }
+        .section36 { top: 913px; left: 0; }
+
+        .section37 { top: 664px; left: 25%; }
+        .section38 { top: 747px; left: 25%; }
+        .section39 { top: 830px; left: 25%; }
+        .section40 { top: 913px; left: 25%; }
+
+        .section41 { top: 664px; left: 50%; }
+        .section42 { top: 747px; left: 50%; }
+        .section43 { top: 830px; left: 50%; }
+        .section44 { top: 913px; left: 50%; }
+
+        .section45 { top: 664px; left: 75%; }
+        .section46 { top: 747px; left: 75%; }
+        .section47 { top: 830px; left: 75%; }
+        .section48 { top: 913px; left: 75%; }
+    </style>
+    <title>Hello, world!</title>
+</head>
+<body>
+
+    <header>
+        <div class="collapse bg-dark" id="navbarHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-md-7 py-4">
+                        <h4 class="text-white">About</h4>
+                        <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+                    </div>
+                    <div class="col-sm-4 offset-md-1 py-4">
+                        <h4 class="text-white">Contact</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                            <li><a href="#" class="text-white">Like on Facebook</a></li>
+                            <li><a href="#" class="text-white">Email me</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+                <a href="#" class="navbar-brand d-flex align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    <strong>Album</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Explore the Campus</h1>
+                <p class="lead text-muted">Click on the map sections to unlock areas of the campus!</p>
+            </div>
+        </section>
+
+        <div class="map" id="map">
+                <!-- Add map sections with corresponding classes -->
+                <!-- <div class="map-section section section1" data-section="section1"></div> -->
+                <!-- <div class="map-section section section2" data-section="section2"></div> -->
+                <!-- <div class="map-section section section3" data-section="section3"></div> -->
+                <!-- <div class="map-section section section4" data-section="section4"></div> -->
+                <!-- <div class="map-section section section5" data-section="section5"></div> -->
+                <!-- <div class="map-section section section6" data-section="section6"></div> -->
+                <div class="map-section section section7" data-section="section7"></div>
+                <!-- <div class="map-section section section8" data-section="section8"></div> -->
+                <!-- <div class="map-section section section9" data-section="section9"></div> -->
+                <div class="map-section section section10" data-section="section10"></div>
+                <!-- <div class="map-section section section11" data-section="section11"></div> -->
+                <div class="map-section section section12" data-section="section12"></div>
+                
+                <!-- <div class="map-section section section13" data-section="section13"></div> -->
+                <!-- <div class="map-section section section14" data-section="section14"></div> -->
+                <!-- <div class="map-section section section15" data-section="section15"></div> -->
+                <!-- <div class="map-section section section16" data-section="section16"></div> -->
+                <!-- <div class="map-section section section17" data-section="section17"></div> -->
+                <!-- <div class="map-section section section18" data-section="section18"></div> -->
+                <!-- <div class="map-section section section19" data-section="section19"></div> -->
+                <div class="map-section section section20" data-section="section20"></div>
+                <!-- <div class="map-section section section21" data-section="section21"></div> -->
+                <!-- <div class="map-section section section22" data-section="section22"></div> -->
+                <!-- <div class="map-section section section23" data-section="section23"></div> -->
+                <!-- <div class="map-section section section24" data-section="section24"></div> -->
+
+                <div class="map-section section section25" data-section="section25"></div>
+                <!-- <div class="map-section section section26" data-section="section26"></div> -->
+                <div class="map-section section section27" data-section="section27"></div>
+                <!-- <div class="map-section section section28" data-section="section28"></div> -->
+                <!-- <div class="map-section section section29" data-section="section29"></div> -->
+                <!-- <div class="map-section section section30" data-section="section30"></div> -->
+                <!-- <div class="map-section section section31" data-section="section31"></div> -->
+                <!-- <div class="map-section section section32" data-section="section32"></div> -->
+                <!-- <div class="map-section section section33" data-section="section33"></div> -->
+                <!-- <div class="map-section section section34" data-section="section34"></div> -->
+                <!-- <div class="map-section section section35" data-section="section35"></div> -->
+                <!-- <div class="map-section section section36" data-section="section36"></div> -->
+
+                <!-- <div class="map-section section section37" data-section="section37"></div> -->
+                <!-- <div class="map-section section section38" data-section="section38"></div> -->
+                <!-- <div class="map-section section section39" data-section="section39"></div> -->
+                <!-- <div class="map-section section section40" data-section="section40"></div> -->
+                <!-- <div class="map-section section section41" data-section="section41"></div> -->
+                <div class="map-section section section42" data-section="section42"></div>
+                <!-- <div class="map-section section section43" data-section="section43"></div> -->
+                <!-- <div class="map-section section section44" data-section="section44"></div> -->
+                <!-- <div class="map-section section section45" data-section="section45"></div> -->
+                <!-- <div class="map-section section section46" data-section="section46"></div> -->
+                <!-- <div class="map-section section section47" data-section="section47"></div> -->
+                <!-- <div class="map-section section section48" data-section="section48"></div> -->
+            </div>
+    </main>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+            <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var sections = document.querySelectorAll('.map-section');
+
+            sections.forEach(function (section) {
+                section.addEventListener('click', function () {
+                    // Toggle the 'clicked' class on the section
+                    section.classList.toggle('clicked');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
