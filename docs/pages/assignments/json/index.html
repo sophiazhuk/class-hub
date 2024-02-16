@@ -149,7 +149,7 @@
 
             // setInterval(fetchISSPosition, 10000);
 
-            $.getJSON('http://api.open-notify.org/astros.json', function (data) {
+            $.getJSON('https://api.open-notify.org/astros.json', function (data) {
                 $('#total-people').text(data.number);
 
                 var astronautList = $('#astronaut-list');
