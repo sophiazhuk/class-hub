@@ -148,16 +148,16 @@
             // fetchISSPosition();
 
             // setInterval(fetchISSPosition, 10000);
-
-            $.getJSON('https://api.open-notify.org/astros.json', function (data) {
-                $('#total-people').text(data.number);
-
-                var astronautList = $('#astronaut-list');
-                $.each(data.people, function (index, astronaut) {
-                    var listItem = $('<li class="astronaut">').html('<strong>' + astronaut.name + '</strong> on ' + astronaut.craft);
-                    astronautList.append(listItem);
-                });
+            loadJSON("https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json", dataReceived);
+            $.getJSON('http://api.open-notify.org/astros.json', function (data) {
+                loadJSON("https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json", dataReceived);
+            $('#total-people').text(data.number);
+            var astronautList = $('#astronaut-list');
+            $.each(data.people, function (index, astronaut) {
+                var listItem = $('<li class="astronaut">').html('<strong>' + astronaut.name + '</strong> on ' + astronaut.craft);
+                astronautList.append(listItem);
             });
+        });
 
             $('.iss').click(function () {
                 $('#space-info').toggle();
