@@ -177,7 +177,7 @@
             // fetchISSPosition();
 
             // setInterval(fetchISSPosition, 10000);
-            $.getJSON('http://api.open-notify.org/astros.json', function (data) {
+            $.getJSON('https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json', function (data) {
             $('#total-people').text(data.number);
             var astronautList = $('#astronaut-list');
             $.each(data.people, function (index, astronaut) {
