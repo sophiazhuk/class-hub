@@ -39,7 +39,6 @@
     flex-direction: column;
     /* font-family: "SanFrancisco"; */
     font-size: 1.25rem;
-    margin: 0 auto 1rem;
     max-width: 600px;
     padding: 0.5rem 1.5rem; 
 }
@@ -51,6 +50,7 @@ input:focus {
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
+    margin-bottom: 1rem;
 }
 .submit{
     /* background-color: #248bf5;
@@ -103,6 +103,7 @@ input[type=submit] :hover {
     max-width: 600px;
     padding: 0.5rem 1.5rem;
     height: 400px;
+    overflow-y: scroll;
   }
   
   .imessage p {
@@ -209,7 +210,30 @@ input[type=submit] :hover {
   }
   
   
+  ::-webkit-scrollbar {
+    width: 14px;
+    height: 18px;
+  }
   
+  ::-webkit-scrollbar-thumb {
+    height: 6px;
+    border: 4px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    background-color: rgb(165, 165, 165);
+    -webkit-border-radius: 7px;
+    -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05),
+      inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+  }
+  
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
   
   
   
@@ -356,3 +380,11 @@ input[type=submit] :hover {
     width: 10px;
   }
   
+  a {
+    text-decoration: none ;
+    color: #248bf5;
+  }
+  a:visited {
+    text-decoration: none ;
+    color: #248bf5;
+  }
