@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliza (elizabot.js)</title>
+  <link rel="stylesheet" href="style.css">
+  <script language="JavaScript" type="text/javascript" src="elizabot.js"></script>
+  <script language="JavaScript" type="text/javascript" src="elizadata.js"></script>
+  <script language="JavaScript" type="text/javascript">
+    var eliza = new ElizaBot();
+    var elizaLines = [];
+
+    function elizaReset() {
+      eliza.reset();
+      elizaLines.length = 0;
+      // Add the initial Eliza message to elizaLines when resetting
+      var initial = ' ' + eliza.getInitial();
+      elizaLines.push({ role: 'from-them', message: initial });
+      displayConversation();
+      var f = document.forms.e_form;
+      f.e_input.value = '';
+      f.e_input.focus();
+    }
+
+    function elizaStep() {
+      var f = document.forms.e_form;
+      var userinput = f.e_input.value;
+
+      if (eliza.quit) {
+        f.e_input.value = '';
+        if (confirm("This session is over.\nStart over?")) elizaReset();
+        f.e_input.focus();
+        return;
+      } else if (userinput !== '') {
+        var usr = { role: 'from-me', message: '    ' + userinput };
+        elizaLines.push(usr);
+        displayConversation();
+
+        // Introduce a random delay between 1 and 5 seconds before Eliza responds
+        var randomDelay = Math.floor(Math.random() * 4000) + 1000; // Random delay between 1 and 5 seconds
+        setTimeout(function () {
+          var rpl = { role: 'from-them', message: ' ' + eliza.transform(userinput) };
+          elizaLines.push(rpl);
+          displayConversation();
+        }, randomDelay);
+      } else if (elizaLines.length === 0) {
+        // no input and no saved lines -> output initial
+        var initial = ' ' + eliza.getInitial();
+        elizaLines.push({ role: 'from-them', message: initial });
+        displayConversation();
+      }
+
+      f.e_input.value = '';
+      f.e_input.focus();
+    }
+
+    function displayConversation() {
+      var f = document.forms.e_form;
+      var conversationDiv = document.getElementById("conversation");
+      conversationDiv.innerHTML = ""; // Clear existing content
+
+      elizaLines.forEach(function (line) {
+        var messageParagraph = document.createElement("p");
+        messageParagraph.textContent = line.message;
+        messageParagraph.classList.add(line.role);
+        conversationDiv.appendChild(messageParagraph);
+      });
+
+      // Scroll to the bottom to show the latest messages
+      conversationDiv.scrollTop = conversationDiv.scrollHeight;
+    }
+  </script>
+</head>
+<body style="margin: 0; font-family: Arial;" onload="elizaReset();">
+
+  <div class="container">
+    <div class="header">
+      <div class="contact-image">E</div>
+      <div>Eliza</div>
+    </div>
+    
+    
+
+    <div class="imessage" id="conversation" ></div>
+
+    <form name="e_form" onsubmit="elizaStep(); return false" style="display: flex; flex-direction: column; align-items: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div class="inputs" style="flex-grow: 1;">
+          <input class="text-box" type="text" name="e_input" size="42" placeholder="iMessage" style="width: 100%;">
+        </div>
+        <div class="submit" style="margin-left: 10px;">
+          <input type="submit" value="&nbsp;&nbsp;">
+        </div>
+      </div>
+
+      <input type="reset" onclick="elizaReset()">
+    </form>
+  </div>
+
+</body>
+</html>

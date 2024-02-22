@@ -101,7 +101,7 @@
 </pre>
 <p>\\ Click on the ISS for more information... </p>
 <p id="longitude-info">\\ latitude: Loading...</p>
-<p id="">\\ : Loading...</p>
+<p id="">\\ longitude: Loading...</p>
 
     </div>
     <div class="container">
@@ -158,25 +158,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
-            // function updateISSPosition(longitude) {
-            //     var leftPosition = 12 + ((longitude + 90) / 180) * (65 - 12);
-                
-            //     $('.iss').css('left', leftPosition + '%');
-
-            //     $('#longitude-info').text('Longitude: ' + longitude);
-            // }
-
-            // function fetchISSPosition() {
-            //     $.getJSON('https://api.wheretheiss.at/v1/satellites/25544', function (data) {
-            //         if (data.longitude !== undefined) {
-            //             updateISSPosition(data.longitude);
-            //         }
-            //     });
-            // }
-
-            // fetchISSPosition();
-
-            // setInterval(fetchISSPosition, 10000);
 
             $.getJSON('https://cors-anywhere.herokuapp.com/http://api.open-notify.org/astros.json', function (data) {
             $('#total-people').text(data.number);

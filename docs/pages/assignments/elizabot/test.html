@@ -1,0 +1,102 @@
+<HTML>
+
+<HEAD>
+  <TITLE>Eliza (elizabot.js)</TITLE>
+  <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizabot.js"></SCRIPT>
+  <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizadata.js"></SCRIPT>
+  <link rel="stylesheet" href="style.css">
+  <SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+    <!--
+    
+    var eliza = new ElizaBot();
+    var elizaLines = new Array();
+    
+    var displayCols = 60;
+    var displayRows = 20;
+    
+    function elizaReset() {
+      eliza.reset();
+      elizaLines.length = 0;
+      elizaStep();
+    }
+    
+    function elizaStep() {
+      var f = document.forms.e_form;
+      var userinput = f.e_input.value;
+      if (eliza.quit) {
+        f.e_input.value = '';
+        if (confirm("This session is over.\nStart over?")) elizaReset();
+        f.e_input.focus();
+        return;
+      }
+      else if (userinput != '') {
+        var usr = 'YOU:   ' + userinput;
+        var rpl ='ELIZA: ' + eliza.transform(userinput);
+        elizaLines.push(usr);
+        elizaLines.push(rpl);
+        // display nicely
+        // (fit to textarea with last line free - reserved for extra line caused by word wrap)
+        var temp  = new Array();
+        var l = 0;
+        for (var i=elizaLines.length-1; i>=0; i--) {
+          l += 1 + Math.floor(elizaLines[i].length/displayCols);
+          if (l >= displayRows) break
+          else temp.push(elizaLines[i]);
+        }
+        elizaLines = temp.reverse();
+        f.e_display.value = elizaLines.join('\n');
+      }
+      else if (elizaLines.length == 0) {
+        // no input and no saved lines -> output initial
+        var initial = 'ELIZA: ' + eliza.getInitial();
+        elizaLines.push(initial);
+        f.e_display.value = initial + '\n';
+      }
+      f.e_input.value = '';
+      f.e_input.focus();
+    }
+    
+    //-->
+  </SCRIPT>
+</HEAD>
+
+<BODY TOPMARGIN="0" LEFTMARGIN="0" RIGHTMARGIN="0" BOTTOMMARGIN="0" MARGINHEIGHT="0" MARGINWIDTH="0" STYLE="border:0"
+  onload="window.setTimeout('elizaReset()',100)"><A NAME="top"></A>
+
+
+  <div class="container">
+
+    
+    <h2>An iMessage chat with a real person?</h2>
+  
+    <p class="comment">This begins one morning with my friend in San Diego telling me about an earthquake they just had.</p>
+    <div class="header">
+      <h1>Eliza</h1>
+    </div>
+    <div class="imessage">
+      <p class="from-them">It was loud. We just laid there and said &ldquo;is this an earthquake? I think this is an earthquake.&rdquo;</p>
+      <p class="from-me">Like is this an earthquake just go back to sleep</p>
+      <p class="from-them margin-b_one">It&rsquo;s more like &ldquo;this is an earthquake. Check the Internet. Yup. Earthquake. This is the size. This is the epicenter. Check social media. Make sure the East Coast knows I&rsquo;m alive. Okay, try and go back to sleep.&rdquo;</p>
+      <p class="from-me no-tail emoji">👍🏻</p>
+      <p class="from-me">Glad you&rsquo;re safe</p>
+      <p class="from-me">Time to write some code where I left off</p>
+      <p class="from-them">Previously on As the Code Turns</p>
+      <TR VALIGN="middle">
+        <div class="inputs">
+          <INPUT class="text-box" TYPE="text" NAME="e_input" SIZE="42" placeholder="iMessage">
+            <div class="submit">
+            <INPUT TYPE="submit" VALUE="&nbsp;&nbsp;">
+          </div>
+          </div>
+          
+        <TD></TD>
+          <br><br>
+        <TD ALIGN="right"> <INPUT TYPE="reset" VALUE="Reset"
+            onClick="window.setTimeout('elizaReset()',100)"></TD>
+      </TR>
+    </div>
+
+  </div>
+</BODY>
+
+</HTML>
