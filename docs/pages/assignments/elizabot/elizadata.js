@@ -3,19 +3,19 @@
 // [cf: Communications of the ACM, Vol. 9, #1 (January 1966): p 36-45.]
 
 var elizaInitials = [
-"hi.  hows it going :-)",
+"hi.  hows it going :-)👋",
 // additions (not original)
-"whats up?",
-"how are u doing?"
+"whats up? 👋",
+"how are u doing? 👋"
 ];
 
 var elizaFinals = [
 "see ya!.  it was nice talking :-D",
 // additions (not original)
-"bye, see u later!",
+"bye, see u later! 👋",
 "so long :-D",
-"nice talk! -- ttyl.",
-"bye bye!"
+"nice talk! -- ttyl 👋.",
+"bye bye! 👋"
 ];
 
 var elizaQuits = [
