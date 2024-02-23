@@ -329,11 +329,11 @@ ElizaBot.prototype._postTransform = function(s) {
 		}
 	}
 	// capitalize first char (v.1.1: work around lambda function)
-	if (this.capitalizeFirstLetter) {
-		var re=/^([a-z])/;
-		var m=re.exec(s);
-		if (m) s=m[0].toUpperCase()+s.substring(1);
-	}
+	// if (this.capitalizeFirstLetter) {
+	// 	var re=/^([a-z])/;
+	// 	var m=re.exec(s);
+	// 	if (m) s=m[0].toUpperCase()+s.substring(1);
+	// }
 	return s;
 }
 
