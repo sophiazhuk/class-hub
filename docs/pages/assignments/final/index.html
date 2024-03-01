@@ -28,17 +28,17 @@
       transform: translate(-50%, -50%);
     }
 
-    #message-container {
+    #message-container,
+    #location-container {
       position: fixed;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
+      top: 20px;
+      left: 20px;
       padding: 10px;
       background-color: white;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       z-index: 1000;
-      display: none; /* Initially hide the message */
+      display: none; /* Initially hide the message and location */
     }
   </style>
   <title>Campus Map Locator</title>
@@ -52,6 +52,12 @@
 
 <div id="message-container">
   <p id="message-content">You are not currently located on the campus map.</p>
+</div>
+
+<div id="location-container">
+  <h3>Your Current Location:</h3>
+  <p id="latitude">Latitude: </p>
+  <p id="longitude">Longitude: </p>
 </div>
 
 <script>
@@ -69,6 +75,16 @@
       const userMarker = document.getElementById("user-marker");
       userMarker.style.top = calculateTopPosition(userLatitude) + "%";
       userMarker.style.left = calculateLeftPosition(userLongitude) + "%";
+
+      // Display the user's location in the box
+      const locationContainer = document.getElementById("location-container");
+      const latitudeElement = document.getElementById("latitude");
+      const longitudeElement = document.getElementById("longitude");
+
+      latitudeElement.textContent = `Latitude: ${userLatitude.toFixed(6)}`;
+      longitudeElement.textContent = `Longitude: ${userLongitude.toFixed(6)}`;
+
+      locationContainer.style.display = "block";
     } else {
       const messageContainer = document.getElementById("message-container");
       messageContainer.style.display = "block";
@@ -84,7 +100,7 @@
 
   function calculateLeftPosition(longitude) {
     const leftLongitude = -122.49112;
-    const rightLongitude = -122.48200;
+    const rightLongitude = -122.482;
     const percentage = (longitude - leftLongitude) / (rightLongitude - leftLongitude) * 100;
     return Math.max(0, Math.min(100, percentage)); // Ensure the value is between 0 and 100
   }
@@ -93,7 +109,7 @@
     const topLatitude = 48.74115;
     const bottomLatitude = 48.72629;
     const leftLongitude = -122.49112;
-    const rightLongitude = -122.48200;
+    const rightLongitude = -122.482;
 
     return (
       latitude >= bottomLatitude &&
