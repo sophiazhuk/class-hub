@@ -406,7 +406,7 @@ var elizaKeywords = [
  ["* you *", [
      "We were discussing you -- not me.",
      "Oh, i (2) ?",
-     "u r not really talking about me -- are you ?",
+     "u r talking about me?",
      "what are your feelings now ?"
   ]]
 ]],
