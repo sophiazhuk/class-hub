@@ -252,9 +252,7 @@ td img {
     cursor: pointer;
     margin-right: 20px;
 }
-#icons :hover {
-    background-color:;
-}
+
 .row :hover {
     color: #ffd429;
 }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Prevent scrolling */
+      font-family: Arial, sans-serif;
+    }
+
+    #map-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: url('map2.webp') no-repeat center center;
+      background-size: contain; /* Adjust as needed based on your layout preference */
+    }
+
+    #user-marker {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #message-container {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      padding: 10px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none; /* Initially hide the message */
+    }
+  </style>
+  <title>Campus Map Locator</title>
+</head>
+<body>
+
+<div id="map-container">
+  <div id="user-marker"></div>
+  <!-- No need to include the image tag here, it's set as a background in CSS -->
+</div>
+
+<div id="message-container">
+  <p id="message-content">You are not currently located on the campus map.</p>
+</div>
+
+<script>
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+
+  function showPosition(position) {
+    const userLatitude = position.coords.latitude;
+    const userLongitude = position.coords.longitude;
+
+    if (isUserWithinBounds(userLatitude, userLongitude)) {
+      const userMarker = document.getElementById("user-marker");
+      userMarker.style.top = calculateTopPosition(userLatitude) + "%";
+      userMarker.style.left = calculateLeftPosition(userLongitude) + "%";
+    } else {
+      const messageContainer = document.getElementById("message-container");
+      messageContainer.style.display = "block";
+    }
+  }
+
+  function calculateTopPosition(latitude) {
+    const topLatitude = 48.74115;
+    const bottomLatitude = 48.72629;
+    const percentage = (latitude - bottomLatitude) / (topLatitude - bottomLatitude) * 100;
+    return Math.max(0, Math.min(100, percentage)); // Ensure the value is between 0 and 100
+  }
+
+  function calculateLeftPosition(longitude) {
+    const leftLongitude = -122.49112;
+    const rightLongitude = -122.48200;
+    const percentage = (longitude - leftLongitude) / (rightLongitude - leftLongitude) * 100;
+    return Math.max(0, Math.min(100, percentage)); // Ensure the value is between 0 and 100
+  }
+
+  function isUserWithinBounds(latitude, longitude) {
+    const topLatitude = 48.74115;
+    const bottomLatitude = 48.72629;
+    const leftLongitude = -122.49112;
+    const rightLongitude = -122.48200;
+
+    return (
+      latitude >= bottomLatitude &&
+      latitude <= topLatitude &&
+      longitude >= leftLongitude &&
+      longitude <= rightLongitude
+    );
+  }
+
+  function showError(error) {
+    const messageContainer = document.getElementById("message-container");
+    let message = "Error getting your location.";
+
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        message = "User denied the request for geolocation.";
+        break;
+      case error.POSITION_UNAVAILABLE:
+        message = "Location information is unavailable.";
+        break;
+      case error.TIMEOUT:
+        message = "The request to get user location timed out.";
+        break;
+    }
+
+    messageContainer.innerHTML = `<p>${message}</p>`;
+    messageContainer.style.display = "block";
+  }
+</script>
+
+</body>
+</html>
