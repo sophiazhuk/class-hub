@@ -6,139 +6,124 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
-      overflow: hidden; /* Prevent scrolling */
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
     }
 
     #map-container {
       position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: url('map2.webp') no-repeat center center;
-      background-size: contain; /* Adjust as needed based on your layout preference */
+      width: 100%;
+      overflow: hidden;
     }
 
-    #user-marker {
+    #campus-map {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .user-marker {
       position: absolute;
       width: 20px;
       height: 20px;
-      background-color: red;
+      background-color: red; /* or any color you prefer */
       border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #message-container,
-    #location-container {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px;
-      background-color: white;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-      display: none; /* Initially hide the message and location */
     }
   </style>
-  <title>Campus Map Locator</title>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      showError("Geolocation is not supported by this browser.");
+    }
+
+    function showPosition(position) {
+      const userLatitude = position.coords.latitude;
+      const userLongitude = position.coords.longitude;
+
+      // Display user coordinates in the header
+      const userCoordinatesElement = document.getElementById("user-coordinates");
+      userCoordinatesElement.innerText = `Latitude: ${userLatitude.toFixed(5)}, Longitude: ${userLongitude.toFixed(5)}`;
+
+      // Check if the user is within the map boundaries
+      if (isWithinMapBounds(userLatitude, userLongitude)) {
+        // Display user marker on the map
+        const marker = document.createElement("div");
+        marker.className = "user-marker";
+        marker.style.top = calculateTopPosition(userLatitude) + "px";
+        marker.style.left = calculateLeftPosition(userLongitude) + "px";
+        document.getElementById("map-container").appendChild(marker);
+      } else {
+        // Display message if the user is outside the map boundaries
+        userCoordinatesElement.innerText = "User not within the map boundaries.";
+      }
+    }
+
+    function showError(error) {
+      console.log(error.message);
+      // Handle geolocation errors as needed
+    }
+
+    function isWithinMapBounds(latitude, longitude) {
+      // Check if the coordinates are within the specified bounds
+      const mapBounds = {
+        top: 48.74115,
+        left: -122.49112,
+        bottom: 48.72629,
+        right: -122.48200
+      };
+
+      return (
+        latitude >= mapBounds.bottom &&
+        latitude <= mapBounds.top &&
+        longitude >= mapBounds.left &&
+        longitude <= mapBounds.right
+      );
+    }
+
+    function calculateTopPosition(latitude) {
+      // Calculate the top position of the user marker based on latitude
+      const mapBounds = {
+        top: 48.74115,
+        bottom: 48.72629
+      };
+
+      const mapHeight = 3529; // Adjust according to the actual map image size
+      const percentageFromBottom = (latitude - mapBounds.bottom) / (mapBounds.top - mapBounds.bottom);
+      return mapHeight - (percentageFromBottom * mapHeight);
+    }
+
+    function calculateLeftPosition(longitude) {
+      // Calculate the left position of the user marker based on longitude
+      const mapBounds = {
+        left: -122.49112,
+        right: -122.48200
+      };
+
+      const mapWidth = 1421; // Adjust according to the actual map image size
+      const percentageFromLeft = (longitude - mapBounds.left) / (mapBounds.right - mapBounds.left);
+      return percentageFromLeft * mapWidth;
+    }
+  });
+</script>
+
 </head>
 <body>
 
-<div id="map-container">
-  <div id="user-marker"></div>
-  <!-- No need to include the image tag here, it's set as a background in CSS -->
-</div>
+  <header>
+    <h1 id="user-coordinates">User Coordinates</h1>
+  </header>
 
-<div id="message-container">
-  <p id="message-content">You are not currently located on the campus map.</p>
-</div>
-
-<div id="location-container">
-  <h3>Your Current Location:</h3>
-  <p id="latitude">Latitude: </p>
-  <p id="longitude">Longitude: </p>
-</div>
-
-<script>
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, showError);
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-
-  function showPosition(position) {
-    const userLatitude = position.coords.latitude;
-    const userLongitude = position.coords.longitude;
-
-    if (isUserWithinBounds(userLatitude, userLongitude)) {
-      const userMarker = document.getElementById("user-marker");
-      userMarker.style.top = calculateTopPosition(userLatitude) + "%";
-      userMarker.style.left = calculateLeftPosition(userLongitude) + "%";
-
-      // Display the user's location in the box
-      const locationContainer = document.getElementById("location-container");
-      const latitudeElement = document.getElementById("latitude");
-      const longitudeElement = document.getElementById("longitude");
-
-      latitudeElement.textContent = `Latitude: ${userLatitude.toFixed(6)}`;
-      longitudeElement.textContent = `Longitude: ${userLongitude.toFixed(6)}`;
-
-      locationContainer.style.display = "block";
-    } else {
-      const messageContainer = document.getElementById("message-container");
-      messageContainer.style.display = "block";
-    }
-  }
-
-  function calculateTopPosition(latitude) {
-    const topLatitude = 48.74115;
-    const bottomLatitude = 48.72629;
-    const percentage = (latitude - bottomLatitude) / (topLatitude - bottomLatitude) * 100;
-    return Math.max(0, Math.min(100, percentage)); // Ensure the value is between 0 and 100
-  }
-
-  function calculateLeftPosition(longitude) {
-    const leftLongitude = -122.49112;
-    const rightLongitude = -122.482;
-    const percentage = (longitude - leftLongitude) / (rightLongitude - leftLongitude) * 100;
-    return Math.max(0, Math.min(100, percentage)); // Ensure the value is between 0 and 100
-  }
-
-  function isUserWithinBounds(latitude, longitude) {
-    const topLatitude = 48.74115;
-    const bottomLatitude = 48.72629;
-    const leftLongitude = -122.49112;
-    const rightLongitude = -122.482;
-
-    return (
-      latitude >= bottomLatitude &&
-      latitude <= topLatitude &&
-      longitude >= leftLongitude &&
-      longitude <= rightLongitude
-    );
-  }
-
-  function showError(error) {
-    const messageContainer = document.getElementById("message-container");
-    let message = "Error getting your location.";
-
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        message = "User denied the request for geolocation.";
-        break;
-      case error.POSITION_UNAVAILABLE:
-        message = "Location information is unavailable.";
-        break;
-      case error.TIMEOUT:
-        message = "The request to get user location timed out.";
-        break;
-    }
-
-    messageContainer.innerHTML = `<p>${message}</p>`;
-    messageContainer.style.display = "block";
-  }
-</script>
+  <div id="map-container">
+    <img id="campus-map" src="map3.webp" alt="Campus Map">
+  </div>
 
 </body>
 </html>

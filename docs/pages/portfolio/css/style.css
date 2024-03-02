@@ -42,7 +42,7 @@ a {
 main {
     display: flex;
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
 }
 #container {
     display: flex;
@@ -101,18 +101,30 @@ main {
 
 .profile {
     display: flex;
-    flex-direction: row;
-    margin: 0px 0px 0px 100px;
-    text-align: right;
+    align-items: center;
+    flex-direction: row-reverse;
+    /* margin: 0px 0px 0px 0px; */
+    /* text-align: right;
+    margin-top: auto; */
+    position: fixed;
+    bottom: 0vh;
+    right: -50vh;
 }
 
 #bio {
-    margin-right: 20px;
-    position: fixed;
-    bottom: 300px;
-    right: 300px;
+    margin-right: -10vh;
+    margin-bottom:30vh;
+    text-align: right;
+    /* margin-top: 64px;
+    /* position: fixed; */
+    /* bottom: 300px;
+    right: 300px; */
 }
-
+#column2 {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+}
 .profile h4 {
     font-size: 1.5rem;
     font-weight: bold;
@@ -124,12 +136,20 @@ main {
 }
 
 .profile img {
-    width: 30%;
-    position: fixed;
+    width: 65%;
+    /* position: fixed;
     bottom: 0px;
-    right: -70px;
+    right: -70px; */
     
     /* temp */
+}
+@media only screen and (max-width: 1026px) {
+    .profile {
+        display: none;
+    }
+    header {
+        flex-direction: column;
+    }
 }
 #menu-icon {
     margin: 30px;
@@ -214,8 +234,23 @@ td img {
     text-align: center;
     margin: 20px;
 }
+
+.row .button {
+    padding: 10px;
+    background-color: #ffd429;
+    color: #222323;
+    cursor: default;
+    font-size: 1rem;
+    font-weight: bolder;
+    width: auto;
+    margin: 10px;
+}
+
 .button:hover {
     background-color: rgb(233, 191, 25);
+}
+.row .button:hover {
+    background-color: inherit;
 }
 
 #education dt {
@@ -223,11 +258,17 @@ td img {
 }
 
 #contact {
-    margin: 20px 50px;
-    height: 200px;
+    margin: 50px;
+    padding-bottom: 0px;
+    height: 350px;
+    width: 45%;
     display: flex;
     flex-direction: column;
+    /* border: #f0f6f0 solid 2px; */
 
+}
+#contact h1 {
+    margin: 10px 0px 0px 20px;
 }
 #contact #icons{
     display: flex;
@@ -237,9 +278,9 @@ td img {
 .row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     font-size: 2rem;
     margin: 20px 20px;
-    cursor: pointer;
 }
 #icons img {
     height: 50px;
@@ -368,7 +409,8 @@ dd{margin-bottom: 20px;}
    justify-content:center;
    align-items:center;
    overflow:hidden;
-   height:100vh;
+   height:80vh;
+   width: 180vh;
    transition:.25s;
    .credit {
       position: absolute;
