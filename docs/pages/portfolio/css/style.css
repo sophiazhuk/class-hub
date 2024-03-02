@@ -58,6 +58,7 @@ main {
 }
 
 #sidebar {
+    display: block;
     writing-mode: vertical-rl; 
     transform: rotate(-180deg);
     border-left: 2px solid #f0f6f0;
@@ -149,6 +150,30 @@ main {
     }
     header {
         flex-direction: column;
+    }
+    #sidebar {
+        display: none;
+    }
+    #about-wrapper {
+        min-width: 800px;
+        margin: 0px;
+    }
+    header h1 {
+        font-size: 2rem;
+        margin: 20px;
+    }
+    nav {
+        max-width: 100%;
+        font-size: 1rem;
+    }
+    /* nav ul {
+        flex-direction: row;
+        margin: 10px 0px;
+        padding: 0px;
+        max-width: 100vh;
+    } */
+    .options {
+        overflow-y: scroll;
     }
 }
 #menu-icon {
