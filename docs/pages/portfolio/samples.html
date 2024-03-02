@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
@@ -9,38 +10,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video and Design Samples</title>
 </head>
+
 <body>
     <section class="wrapper">
         <div id="stars"></div>
         <div id="stars2"></div>
     </section>
     <header>
-        <div><h1><a href="portfolio.html"> Portfolio: Sophia A. Zhuk</a></h1></div>
+        <div>
+            <h1><a href="portfolio.html"> Portfolio: Sophia A. Zhuk</a></h1>
+        </div>
         <nav>
             <ul>
                 <li><a href="portfolio.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="projects.html" >Work</a></li>
-                <li><a href="contact.html">Contact</a></li>            
+                <li><a href="projects.html">Work</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
-    
+
         </nav>
     </header>
     <div id="wrapper">
-        <div id="sidebar"><div> ~ VIDEO & DESIGN</div></div>
+        <div id="sidebar">
+            <div> ~ VIDEO & DESIGN</div>
+        </div>
         <main>
-            <div id="pdf">
-                <iframe id="pdf-js-viewer" src="images/Work-Samples_Sophia-Zhuk.pdf" title="webviewer" frameborder="0" width="500" height="600"></iframe>
+            <!-- <div id="pdf">
+                <iframe id="pdf-js-viewer" src="images/Work-Samples_Sophia-Zhuk.pdf" title="webviewer" frameborder="0"></iframe>
                 <a class="button" href="images/Work-Samples_Sophia-Zhuk.pdf">PDF Download</a>
-            </div> 
-            
-            
+            </div>  -->
+            <div>
+                <script src="//mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
+
+                <script type="module">
+                    // If absolute URL from the remote server is provided, configure the CORS
+                    // header on that server.
+                    var url = 'https://sophiazhuk.github.io/class-hub/docs/pages/portfolio/images/Work-Samples_Sophia-Zhuk.pdf';
+
+                    // Loaded via <script> tag, create shortcut to access PDF.js exports.
+                    var { pdfjsLib } = globalThis;
+
+                    // The workerSrc property shall be specified.
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
+
+                    var pdfDoc = null,
+                        pageNum = 1,
+                        pageRendering = false,
+                        pageNumPending = null,
+                        scale = 0.8,
+                        canvas = document.getElementById('the-canvas'),
+                        ctx = canvas.getContext('2d');
+
+                    /**
+                     * Get page info from document, resize canvas accordingly, and render page.
+                     * @param num Page number.
+                     */
+                    function renderPage(num) {
+                        pageRendering = true;
+                        // Using promise to fetch the page
+                        pdfDoc.getPage(num).then(function (page) {
+                            var viewport = page.getViewport({ scale: scale });
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            // Render PDF page into canvas context
+                            var renderContext = {
+                                canvasContext: ctx,
+                                viewport: viewport
+                            };
+                            var renderTask = page.render(renderContext);
+
+                            // Wait for rendering to finish
+                            renderTask.promise.then(function () {
+                                pageRendering = false;
+                                if (pageNumPending !== null) {
+                                    // New page rendering is pending
+                                    renderPage(pageNumPending);
+                                    pageNumPending = null;
+                                }
+                            });
+                        });
+
+                        // Update page counters
+                        document.getElementById('page_num').textContent = num;
+                    }
+
+                    /**
+                     * If another page rendering in progress, waits until the rendering is
+                     * finised. Otherwise, executes rendering immediately.
+                     */
+                    function queueRenderPage(num) {
+                        if (pageRendering) {
+                            pageNumPending = num;
+                        } else {
+                            renderPage(num);
+                        }
+                    }
+
+                    /**
+                     * Displays previous page.
+                     */
+                    function onPrevPage() {
+                        if (pageNum <= 1) {
+                            return;
+                        }
+                        pageNum--;
+                        queueRenderPage(pageNum);
+                    }
+                    document.getElementById('prev').addEventListener('click', onPrevPage);
+
+                    /**
+                     * Displays next page.
+                     */
+                    function onNextPage() {
+                        if (pageNum >= pdfDoc.numPages) {
+                            return;
+                        }
+                        pageNum++;
+                        queueRenderPage(pageNum);
+                    }
+                    document.getElementById('next').addEventListener('click', onNextPage);
+
+                    /**
+                     * Asynchronously downloads PDF.
+                     */
+                    pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+                        pdfDoc = pdfDoc_;
+                        document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+                        // Initial/first page rendering
+                        renderPage(pageNum);
+                    });
+                </script>
+
+                <h1>PDF.js Previous/Next example</h1>
+
+                <p>Please use <a href="https://mozilla.github.io/pdf.js/getting_started/#download"><i>official
+                            releases</i></a> in production environments.</p>
+
+                <div>
+                    <div class="button" id="prev">Previous</div>
+                    <div class="button" id="next">Next</div>
+                    &nbsp; &nbsp;
+                    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+                </div>
+
+                <canvas id="the-canvas"></canvas>
+                
+
+            </div>
+
+
+
         </main>
     </div>
-    
+
 </body>
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
 <script src="js/script.js"></script>
 <script src="js/pdf.min.mjs"></script>
+
 </html>
