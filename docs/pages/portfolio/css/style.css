@@ -199,6 +199,27 @@ td, tr, table{
 }
 table {
     width: 100%;
+    
+}
+#table {
+    width: 100%;
+    overflow: scroll;
+    padding-bottom: 30vh;
+}
+/*        ScrollBar 4    */
+        
+#table::-webkit-scrollbar {
+    width: 12px;
+}
+
+#table::-webkit-scrollbar-track {
+    background-color: transparent;
+    border: 1.5px solid #7e7e7e;
+}
+
+#table::-webkit-scrollbar-thumb {
+    background-color: #f0f6f0;
+    border: 2px solid #616161;
 }
 tr {
     width: 100%;

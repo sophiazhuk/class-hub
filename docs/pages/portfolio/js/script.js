@@ -52,7 +52,7 @@ $('tr#p5').mouseenter(function() {
 //
 $('tr#p6').mouseenter(function() {
     var typed5 = new Typed('#typed6', {
-        strings: ["A personal blog where I share my projects, interests, hobbies, and other fun stuff."],
+        strings: ["A hub for my dynamic web pages class containing projects."],
         typeSpeed: 10,
         showCursor: false,
       });
