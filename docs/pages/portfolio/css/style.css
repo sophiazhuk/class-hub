@@ -167,9 +167,11 @@ main {
     width: 100%;
 }
 #the-canvas {
-    border: 1px solid red;
     direction: ltr;
+    width: 75%;
+    height: 60vh;
   }
+
 /* PROJECTS PAGE */
 
 #project-container {
@@ -327,6 +329,27 @@ td img {
     color: inherit;
 }
 
+#samples {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 50px;
+}
+#samples h1,p {
+    margin: 10px 0px;
+}
+#samples section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px;
+}
+#download {
+    width: 50px;
+}
+#download img {
+    width: 20px;
+    height: 20px;
+}
 /* forms */
     form {
         margin: 0px 100px 75px 100px;

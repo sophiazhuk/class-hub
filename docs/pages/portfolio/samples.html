@@ -39,7 +39,7 @@
                 <iframe id="pdf-js-viewer" src="images/Work-Samples_Sophia-Zhuk.pdf" title="webviewer" frameborder="0"></iframe>
                 <a class="button" href="images/Work-Samples_Sophia-Zhuk.pdf">PDF Download</a>
             </div>  -->
-            <div>
+            <div id="samples">
                 <script src="//mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
 
                 <script type="module">
@@ -143,20 +143,21 @@
                     });
                 </script>
 
-                <h1>PDF.js Previous/Next example</h1>
+                <h1>Video and Design Samples</h1>
 
-                <p>Please use <a href="https://mozilla.github.io/pdf.js/getting_started/#download"><i>official
-                            releases</i></a> in production environments.</p>
-
-                <div>
+                <section>
+                    <div><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
                     <div class="button" id="prev">Previous</div>
                     <div class="button" id="next">Next</div>
+                    <a href="images/Work-Samples_Sophia-Zhuk.pdf"><div class="button" id="download">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJ0lEQVR4nO3aMU7DABBFQV+F50NSws1BlNRBrO2dkVwH/Zc1TY4DAADgYjrPr1ee6b//9hJAgNVyAQKslgsQYLVcgACr5QIEWC0XIMBquQABVssFCLBaLkCA1XIBAqyWCxBgtVyAAKvlAgRYLRcgwGq5AAFWywUIsFouQIDVcgEvDljvr47Y1FMfxxPcMkIPGf+WEXrY+LeK0EPHv0WEHj7+pSO0ZPxLRmjZ+JeK0NLxLxGh5eOPRjD+b/8awfiDEfLamYuQ8eciZPy5CBl/LkLGn4uQ8eciZPy5CBl/LkLGn4uQ8eciZPy5CBl/xNt5fv48M58OAAAAAH/sz38esuw5BDgFmP4W5gLmh8graH6MBh7/A04Bxr+FuYD5IbrrKwgAADie5hu2Bdoccn5URwAAAABJRU5ErkJggg==">                    
+                    </div></a>
                     &nbsp; &nbsp;
-                    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-                </div>
+                    
+                </section>
 
                 <canvas id="the-canvas"></canvas>
-                
+
 
             </div>
 
