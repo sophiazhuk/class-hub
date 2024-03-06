@@ -3,17 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   <style>
+    @font-face {
+      font-family: GlassTTY;
+      src: url(Glass_TTY_VT220.ttf);
+    }    
+    * {
+      font-family: monospace;
+      font-size: 14px;
+    }   
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
+      overflow-x: hidden; /* Prevent horizontal scrolling on smaller screens */
+      position: relative;
     }
 
     header {
-      background-color: #333;
-      color: #fff;
+      background-color: #101319;
+      color: #54c36b;
       text-align: center;
       padding: 10px;
+      font-size: 16px;
     }
 
     #map-container {
@@ -30,99 +43,113 @@
 
     .user-marker {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: red; /* or any color you prefer */
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
-    }
-  </style>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-      showError("Geolocation is not supported by this browser.");
+      background-color: red; /* User's marker color */
+      transform: translate(-50%, -50%);
     }
 
-    function showPosition(position) {
-      const userLatitude = position.coords.latitude;
-      const userLongitude = position.coords.longitude;
+    .blue-marker {
+      position: absolute;
+      width: 35px; /* Size of the marker image */
+      height: 35px; /* Size of the marker image */
+      background-image: url('marker.png');
+      background-size: cover;
+      transform: translate(-50%, -50%);
+      animation: blink 2s ease-in infinite alternate; /* Blinking animation */
+    }
 
-      // Display user coordinates in the header
-      const userCoordinatesElement = document.getElementById("user-coordinates");
-      userCoordinatesElement.innerText = `Latitude: ${userLatitude.toFixed(5)}, Longitude: ${userLongitude.toFixed(5)}`;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10; /* Ensure the canvas is above the map */
+      margin-top: 80px;
+    }
 
-      // Check if the user is within the map boundaries
-      if (isWithinMapBounds(userLatitude, userLongitude)) {
-        // Display user marker on the map
-        const marker = document.createElement("div");
-        marker.className = "user-marker";
-        marker.style.top = calculateTopPosition(userLatitude) + "px";
-        marker.style.left = calculateLeftPosition(userLongitude) + "px";
-        document.getElementById("map-container").appendChild(marker);
-      } else {
-        // Display message if the user is outside the map boundaries
-        userCoordinatesElement.innerText = "User not within the map boundaries.";
+    /* @keyframes blink {
+      from {
+        opacity: 1;
       }
-    }
+      to {
+        opacity: 0.1;
+      }
+    } */
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Manually placed marker coordinates
+      const markers = [
+        { label: 'AW', top: 591.72, left: 192.942 },
+        { label: 'Env Sci', top: 503.87, left: 234.986 },
+        { label: 'Makers Space', top: 445.3, left: 232.27 },
+        { label: 'Western Gallery', top: 378.91, left: 240.916 },
+        { label: 'Miller Hall', top: 315.42, left: 255.444 },
+        { label: 'Wilson Library', top: 222.687, left: 229.025 },
+        { label: 'Viking Union', top: 85.101, left: 270.409 }
+      ];
 
-    function showError(error) {
-      console.log(error.message);
-      // Handle geolocation errors as needed
-    }
+      // Display user marker on the map
+      const userMarker = document.createElement("div");
+      userMarker.className = "user-marker";
+      //userMarker.style.top = "50%"; 
+      //userMarker.style.left = "50%"; 
+      document.getElementById("map-container").appendChild(userMarker);
 
-    function isWithinMapBounds(latitude, longitude) {
-      // Check if the coordinates are within the specified bounds
-      const mapBounds = {
-        top: 48.74115,
-        left: -122.49112,
-        bottom: 48.72629,
-        right: -122.48200
-      };
+      // Add manually placed markers with 'marker.png' for specified locations
+      markers.forEach(marker => {
+        const markerElement = document.createElement("div");
+        markerElement.className = "blue-marker";
+        markerElement.style.top = marker.top + "px";
+        markerElement.style.left = marker.left + "px";
+        markerElement.title = marker.label;
+        document.getElementById("map-container").appendChild(markerElement);
+      });
+    });
+  </script>
+  <script>
+    // p5.js script for drawing a red line connecting all blue markers
+    // function setup() {
+    //   createCanvas(windowWidth, windowHeight);
+    // }
 
-      return (
-        latitude >= mapBounds.bottom &&
-        latitude <= mapBounds.top &&
-        longitude >= mapBounds.left &&
-        longitude <= mapBounds.right
-      );
-    }
-
-    function calculateTopPosition(latitude) {
-      // Calculate the top position of the user marker based on latitude
-      const mapBounds = {
-        top: 48.74115,
-        bottom: 48.72629
-      };
-
-      const mapHeight = 3529; // Adjust according to the actual map image size
-      const percentageFromBottom = (latitude - mapBounds.bottom) / (mapBounds.top - mapBounds.bottom);
-      return mapHeight - (percentageFromBottom * mapHeight);
-    }
-
-    function calculateLeftPosition(longitude) {
-      // Calculate the left position of the user marker based on longitude
-      const mapBounds = {
-        left: -122.49112,
-        right: -122.48200
-      };
-
-      const mapWidth = 1421; // Adjust according to the actual map image size
-      const percentageFromLeft = (longitude - mapBounds.left) / (mapBounds.right - mapBounds.left);
-      return percentageFromLeft * mapWidth;
-    }
-  });
-</script>
-
+    // function draw() {
+    //   stroke(194, 85, 85, 10); // Red color
+    //   strokeWeight(2);
+    //   noFill();
+      
+    //   beginShape();
+      
+    //   // Add coordinates for each blue marker
+    //   vertex(192.942, 591.72);
+    //   vertex(234.986, 503.87);
+    //   vertex(232.27, 445.3);
+    //   vertex(240.916, 378.91);
+    //   vertex(255.444, 315.42);
+    //   vertex(229.025, 222.687);
+    //   vertex(270.409, 85.101);
+      
+    //   endShape();
+    // }
+  </script>
 </head>
 <body>
 
-  <header>
-    <h1 id="user-coordinates">User Coordinates</h1>
+  <header class="navbar">
+    <span class="navbar-brand  h1">// Campus Map Game</span>
+    #########################################
   </header>
 
   <div id="map-container">
-    <img id="campus-map" src="map3.webp" alt="Campus Map">
+    <img id="campus-map" src="map3.webp" alt="Campus Map" class="img-fluid">
+  </div>
+
+  <div class="container mt-3">
+    <p id="user-coordinates" class="lead text-center">User Coordinates: Latitude - Longitude</p>
   </div>
 
 </body>
