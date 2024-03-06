@@ -19,7 +19,6 @@
       font-family: 'Arial', sans-serif;
       overflow-x: hidden; /* Prevent horizontal scrolling on smaller screens */
       position: relative;
-      background-color: #101319;
     }
 
     header {
@@ -53,8 +52,8 @@
 
     .blue-marker {
       position: absolute;
-      width: 35px; /* Size of the marker image */
-      height: 35px; /* Size of the marker image */
+      width: 45px; /* Size of the marker image */
+      height: 45px; /* Size of the marker image */
       background-image: url('marker.png');
       background-size: cover;
       transform: translate(-50%, -50%);
@@ -77,6 +76,35 @@
         opacity: 0.1;
       }
     } */
+
+    /* Trivia Modal Styling */
+    #triviaModal {
+      color: #54c36b;
+
+    }
+
+    .modal-content {
+      background-color: #101319;
+      border: 3px #54c36b solid;
+      border-radius: 0px;
+
+      
+    }
+
+    .answer-option {
+      margin-top: 10px;
+      background-color: #101319;
+      border: 3px #54c36b solid;
+      font-weight: bold;
+    }
+    .modal-header {
+      border-bottom: #54c36b 2px solid;
+      font-weight: bolder;
+    }
+    .close {
+    color: #54c36b;
+    font-weight: bolder;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -109,33 +137,95 @@
         markerElement.style.left = marker.left + "px";
         markerElement.title = marker.label;
         document.getElementById("map-container").appendChild(markerElement);
+
+        markerElement.addEventListener("click", function () {
+          showTriviaQuestion(marker.label);
+        });
       });
     });
-  </script>
-  <script>
-    // p5.js script for drawing a red line connecting all blue markers
-    // function setup() {
-    //   createCanvas(windowWidth, windowHeight);
-    // }
 
-    // function draw() {
-    //   stroke(194, 85, 85, 10); // Red color
-    //   strokeWeight(2);
-    //   noFill();
-      
-    //   beginShape();
-      
-    //   // Add coordinates for each blue marker
-    //   vertex(192.942, 591.72);
-    //   vertex(234.986, 503.87);
-    //   vertex(232.27, 445.3);
-    //   vertex(240.916, 378.91);
-    //   vertex(255.444, 315.42);
-    //   vertex(229.025, 222.687);
-    //   vertex(270.409, 85.101);
-      
-    //   endShape();
-    // }
+    // Trivia Modal Logic
+    function showTriviaQuestion(sectionLabel) {
+      var questionAndAnswers = getQuestionAndAnswersBySection(sectionLabel);
+
+      document.getElementById('questionText').textContent = questionAndAnswers.question;
+
+      var answerButtons = document.querySelectorAll('.answer-option');
+      var randomizedAnswers = questionAndAnswers.answers.slice().sort(() => Math.random() - 0.5);
+
+      answerButtons.forEach(function (button, i) {
+        button.textContent = randomizedAnswers[i];
+        button.classList.remove('btn-success', 'btn-danger');
+        button.classList.add('btn-secondary');
+        if (randomizedAnswers[i] === questionAndAnswers.correctAnswer) {
+          button.dataset.correct = true;
+        } else {
+          button.dataset.correct = false;
+        }
+      });
+
+      $('#triviaModal').modal('show');
+    }
+
+    function checkAnswer(clickedButton) {
+      if (clickedButton.dataset.correct === 'true') {
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-success');
+
+        var blurredSection = document.querySelector('.blue-marker[title="' + clickedButton.dataset.section + '"]');
+        if (blurredSection) {
+          blurredSection.style.opacity = '0';
+        }
+      } else {
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-danger');
+
+        setTimeout(function () {
+          clickedButton.classList.remove('btn-danger');
+          clickedButton.classList.add('btn-secondary');
+        }, 1000);
+      }
+
+      setTimeout(function () {
+        $('#triviaModal').modal('hide');
+
+        var answerButtons = document.querySelectorAll('.answer-option');
+        answerButtons.forEach(function (button) {
+          button.classList.remove('btn-success', 'btn-danger');
+          button.classList.add('btn-secondary');
+          button.dataset.correct = '';
+        });
+
+        var allSections = document.querySelectorAll('.blue-marker');
+        allSections.forEach(function (section) {
+          section.style.opacity = '1';
+        });
+      }, 1000);
+    }
+
+    function getQuestionAndAnswersBySection(sectionLabel) {
+      switch (sectionLabel) {
+        case 'AW':
+          return {
+            question: 'What is AW?',
+            answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
+            correctAnswer: 'Answer 1'
+          };
+        case 'Env Sci':
+          return {
+            question: 'What is Env Sci?',
+            answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
+            correctAnswer: 'Answer 2'
+          };
+        // Add more cases for each section
+        default:
+          return {
+            question: 'Default Question',
+            answers: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+            correctAnswer: 'Option 1'
+          };
+      }
+    }
   </script>
 </head>
 <body>
@@ -151,6 +241,27 @@
 
   <div class="container mt-3">
     <p id="user-coordinates" class="lead text-center">User Coordinates: Latitude - Longitude</p>
+  </div>
+
+  <!-- Trivia Modal -->
+  <div class="modal fade" id="triviaModal" tabindex="-1" role="dialog" aria-labelledby="triviaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="triviaModalLabel">Trivia Question</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="questionText"></p>
+          <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
+          <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
+          <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
+          <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </body>
