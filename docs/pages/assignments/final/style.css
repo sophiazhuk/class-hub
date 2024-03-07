@@ -1,0 +1,107 @@
+@font-face {
+  font-family: GlassTTY;
+  src: url(Glass_TTY_VT220.ttf);
+}    
+* {
+  font-family: monospace;
+  font-size: 14px;
+}   
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scrolling on smaller screens */
+  position: relative;
+  width: 100%;
+}
+
+header {
+  background-color: #101319;
+  color: #54c36b;
+  text-align: center;
+  padding: 10px;
+  font-size: 16px;
+  width: 390px;
+}
+
+#map-container {
+  position: relative;
+  width: 390px;
+  overflow: hidden;
+  height: 824px;
+}
+
+#campus-map {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.user-marker {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red; /* User's marker color */
+  transform: translate(-50%, -50%);
+}
+
+.blue-marker {
+  position: absolute;
+  width: 45px; /* Size of the marker image */
+  height: 45px; /* Size of the marker image */
+  background-image: url('marker.png');
+  background-size: cover;
+  transform: translate(-50%, -50%);
+  animation: blink 2s ease-in infinite alternate; /* Blinking animation */
+}
+.progress {
+color: #54c36b; 
+background-color: #101319; 
+border: 3px solid #54c36b;
+border-radius: 0px;
+}
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10; /* Ensure the canvas is above the map */
+  margin-top: 80px;
+}
+
+/* @keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.1;
+  }
+} */
+
+/* Trivia Modal Styling */
+#triviaModal {
+  color: #54c36b;
+
+}
+
+.modal-content {
+  background-color: #101319;
+  border: 3px #54c36b solid;
+  border-radius: 0px;
+
+  
+}
+
+.answer-option {
+  margin-top: 10px;
+  background-color: #101319;
+  border: 3px #54c36b solid;
+  font-weight: bold;
+}
+.modal-header {
+  border-bottom: #54c36b 2px solid;
+  font-weight: bolder;
+}
+.close {
+color: #54c36b;
+font-weight: bolder;
+}
