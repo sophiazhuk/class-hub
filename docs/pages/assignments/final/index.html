@@ -167,9 +167,9 @@
       const markers = [
         { label: 'AW', top: 591.72, left: 192.942 },
         { label: 'Env', top: 503.87, left: 234.986 },
-        { label: 'Makers Space', top: 445.3, left: 232.27 },
+        // { label: 'Makers Space', top: 445.3, left: 232.27 },
         { label: 'Western Gallery', top: 378.91, left: 240.916 },
-        { label: 'Miller Hall', top: 315.42, left: 255.444 },
+        // { label: 'Miller Hall', top: 315.42, left: 255.444 },
         { label: 'Wilson Library', top: 222.687, left: 229.025 },
         { label: 'Viking Union', top: 85.101, left: 270.409 }
       ];
@@ -263,20 +263,20 @@
       var markersCompleted = document.getElementById('markers-completed');
 
       var currentProgress = parseInt(progressBar.style.width) || 0;
-      var newProgress = Math.min(currentProgress + (100 / 7), 100); // Increment by 1/7th of total progress
+      var newProgress = Math.min(currentProgress + (100 / 5), 100); // Increment by 1/7th of total progress
 
       progressBar.style.width = newProgress + '%';
       progressPercent.textContent = newProgress.toFixed(2) + '%';
 
       var completedMarkers = document.querySelectorAll('.blue-marker.marker-disabled').length;
-      markersCompleted.textContent = completedMarkers + '/7 Points Completed';
+      markersCompleted.textContent = completedMarkers + '/5 Points Completed';
     }
 
     function getQuestionAndAnswersBySection(sectionLabel) {
       switch (sectionLabel) {
         case 'AW':
           return {
-            question: 'What is AW?',
+            question: 'What does AW stand for?',
             answers: ['Academic West', 'Answer Won', 'Aye, watsup', 'Academic Will'],
             correctAnswer: 'Academic West'
           };
@@ -294,7 +294,7 @@
           };
         case 'Western Gallery':
           return {
-            question: 'Who painted number 3',
+            question: 'Who painted this painting?',
             answers: ['Answer 1', 'Answer 2', 'an artist', 'Answer 4'],
             correctAnswer: 'an artist'
           };
@@ -306,14 +306,14 @@
           };
         case 'Wilson Library':
           return {
-            question: 'What is library',
-            answers: ['Answer 1', 'books', 'Answer 3', 'Answer 4'],
-            correctAnswer: 'books'
+            question: 'What food place is located in this building?',
+            answers: ['Freshens', 'Underground Coffee House', 'Zoes Bagels', 'Starbucks'],
+            correctAnswer: 'Zoes Bagels'
           };
         case 'Viking Union':
           return {
-            question: 'What food here?',
-            answers: ['Answer 1', 'Subway', 'Answer 3', 'Answer 4'],
+            question: 'What food item is missing from this vending machine?',
+            answers: ['Doritos Cool Ranch', 'Ms Vickies Spicy Pickle', 'Tims Jalapeno', 'Sun Chips Salsa'],
             correctAnswer: 'Subway'
           };
         default:
@@ -342,7 +342,7 @@
     </div>
     <div id="progress-text">
       <p class="m-0">Progress: <span id="progress-percent">0%</span></p>
-      <p class="m-0" id="markers-completed">0/7 Points Completed</p>
+      <p class="m-0" id="markers-completed">0/5 Points Completed</p>
     </div>
 
     <img id="campus-map" src="map3.webp" alt="Campus Map" class="img-fluid">
