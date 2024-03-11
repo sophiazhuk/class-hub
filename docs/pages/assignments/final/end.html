@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firework Explosion</title>
+    <!-- Add the particle system CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-confetti@3/tsparticles.preset.confetti.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- Button to trigger the firework explosion -->
+<button onclick="startFirework()">Launch Firework</button>
+
+<script>
+    // Function to start the firework explosion
+    function startFirework() {
+        // Load tsParticles with customized options for an instant firework explosion
+        tsParticles.load({
+            id: "tsparticles",
+            options: {
+                emitters: {
+                    life: {
+                        duration: 0.1,  // Adjust the duration if needed
+                        count: 100,
+                    },
+                    position: {
+                        x: 50,
+                        y: 50,
+                    },
+                    color: {
+                        value: ["54c36b"],
+                    },
+                },
+                preset: "confetti",
+            },
+        });
+    }
+</script>
+
+</body>
+</html>

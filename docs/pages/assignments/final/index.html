@@ -12,6 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <!-- <script src="script.js"></script> -->
 
+
   <style>
     .marker-disabled {
       pointer-events: none;
@@ -29,7 +30,6 @@
     * {
       font-family: monospace;
       font-size: 14px;
-
     }
 
     #progress-text {
@@ -44,9 +44,13 @@
       margin: 0;
       font-family: 'Arial', sans-serif;
       overflow-x: hidden;
-      /* Prevent horizontal scrolling on smaller screens */
+      background-color: #101319;
       position: relative;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
     }
 
     header {
@@ -77,21 +81,17 @@
       height: 15px;
       border-radius: 50%;
       background-color: red;
-      /* User's marker color */
       transform: translate(-50%, -50%);
     }
 
     .blue-marker {
       position: absolute;
       width: 45px;
-      /* Size of the marker image */
       height: 45px;
-      /* Size of the marker image */
       background-image: url('marker.png');
       background-size: cover;
       transform: translate(-50%, -50%);
       animation: blink 2s ease-in infinite alternate;
-      /* Blinking animation */
     }
 
     .progress {
@@ -105,7 +105,6 @@
       background-color: #54c36b;
       color: #101319;
       width: 0;
-      /* Set initial width to 0 */
     }
 
     canvas {
@@ -113,19 +112,21 @@
       top: 0;
       left: 0;
       z-index: 10;
-      /* Ensure the canvas is above the map */
       margin-top: 80px;
     }
 
-    /* @keyframes blink {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.1;
-  }
-} */
+    .img-fluid {
+      height: auto;
+      width: 300px;
+    }
 
+    a:link, a:visited {
+      color: #c25555;
+    }
+
+    a:link:active, a:visited:active {
+      color: #c25555;
+    }
     /* Trivia Modal Styling */
     #triviaModal {
       color: #54c36b;
@@ -156,10 +157,32 @@
       color: #54c36b;
       font-weight: bolder;
     }
-    .img-fluid{
-      height: 400px;
-      width: auto;
+
+
+    #instructions-modal {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin: auto;
+      z-index: 9999;
+      background-color: #101319;
+      color: #54c36b;
+      padding: 20px;
+      border: 3px solid #54c36b;
+      border-radius: 10px;
+      max-width: 80%;
+      text-align: left;
+      position: fixed;
+      top: 20%;
     }
+
+    #start-game-btn {
+      margin-top: 20px;
+      background-color: #54c36b;
+      color: #101319;
+      font-weight: bolder;
+    }
+
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -167,11 +190,11 @@
       const markers = [
         { label: 'AW', top: 591.72, left: 192.942 },
         { label: 'Env', top: 503.87, left: 234.986 },
-        // { label: 'Makers Space', top: 445.3, left: 232.27 },
-        { label: 'Western Gallery', top: 378.91, left: 240.916 },
-        // { label: 'Miller Hall', top: 315.42, left: 255.444 },
-        { label: 'Wilson Library', top: 222.687, left: 229.025 },
-        { label: 'Viking Union', top: 85.101, left: 270.409 }
+        { label: 'Makers', top: 445.3, left: 232.27 },
+        { label: 'Gallery', top: 378.91, left: 240.916 },
+        { label: 'Miller', top: 315.42, left: 255.444 },
+        { label: 'Library', top: 222.687, left: 229.025 },
+        { label: 'VU', top: 85.101, left: 270.409 }
       ];
 
       // Display user marker on the map
@@ -192,6 +215,8 @@
           showTriviaQuestion(marker.label);
         });
       });
+
+      showInstructions();
     });
 
     // Trivia Modal Logic
@@ -200,7 +225,11 @@
 
       // Display image
       var imageContainer = document.getElementById('imageContainer');
+      if (imageContainer.classList.contains("no-image")) { 
+        document.getElementById("no-image").style.display = "none";
+      }
       imageContainer.innerHTML = `<img src="${sectionLabel.toLowerCase()}-q.png" alt="${sectionLabel} Image" class="img-fluid">`;
+      
 
       // Display question
       document.getElementById('questionText').textContent = questionAndAnswers.question;
@@ -286,31 +315,31 @@
             answers: ['Small Dinosaur', 'Shore Bird', 'Flying Reptile', 'Sloth'],
             correctAnswer: 'Shore Bird'
           };
-        case 'Makers Space':
+        case 'Makers':
           return {
             question: 'What is Makers Space?',
             answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
             correctAnswer: 'Answer 2'
           };
-        case 'Western Gallery':
+        case 'Gallery':
           return {
             question: 'Who painted this painting?',
             answers: ['Answer 1', 'Answer 2', 'an artist', 'Answer 4'],
             correctAnswer: 'an artist'
           };
-        case 'Miller Hall':
+        case 'Miller':
           return {
             question: 'What they sell at cafe',
             answers: ['Answer 1', 'Answer 2', 'coffee', 'Answer 4'],
             correctAnswer: 'coffee'
           };
-        case 'Wilson Library':
+        case 'Library':
           return {
             question: 'What food place is located in this building?',
             answers: ['Freshens', 'Subway', 'Zoes Bagels', 'Starbucks'],
             correctAnswer: 'Zoes Bagels'
           };
-        case 'Viking Union':
+        case 'VU':
           return {
             question: 'What food item is missing from this vending machine?',
             answers: ['Doritos', 'Miss Vickies', 'Tims', 'Sun Chips'],
@@ -324,13 +353,24 @@
           };
       }
     }
+  
+    function showInstructions() {
+      document.getElementById("instructions-modal").style.display = "flex";
+    }
+
+    function closeInstructions() {
+      document.getElementById("instructions-modal").style.display = "none";
+    }
+  
   </script>
+  
 </head>
 
 <body>
 
   <header class="navbar">
     <span class="navbar-brand  h1">// Campus Map Game</span>
+      <p>Click <a href="">here</a> for the instructions.</p>
     #########################################
   </header>
 
@@ -346,10 +386,6 @@
     </div>
 
     <img id="campus-map" src="map3.webp" alt="Campus Map" class="img-fluid">
-  </div>
-
-  <div class="container mt-3">
-    <p id="user-coordinates" class="lead text-center">User Coordinates: Latitude - Longitude</p>
   </div>
 
   <!-- Trivia Modal -->
@@ -373,6 +409,13 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div id="instructions-modal">
+    <p>Click the markers on the map to answer trivia questions and earn points.</p>
+    <p>Correct answers will progress the bar at the top, and your goal is to complete all 5 points.</p>
+    <p>Good luck!</p>
+    <button id="start-game-btn" class="btn btn-success" onclick="closeInstructions()">Start Game</button>
   </div>
 
 </body>

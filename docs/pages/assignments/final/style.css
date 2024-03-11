@@ -1,17 +1,41 @@
+/* 
+.marker-disabled {
+  pointer-events: none;
+}
+
+.btn {
+  width: 45%;
+}
+
 @font-face {
   font-family: GlassTTY;
   src: url(Glass_TTY_VT220.ttf);
-}    
+}
+
 * {
   font-family: monospace;
   font-size: 14px;
-}   
+}
+
+#progress-text {
+  color: #54c36b;
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  width: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  overflow-x: hidden; /* Prevent horizontal scrolling on smaller screens */
+  overflow-x: hidden;
+  background-color: #101319;
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 header {
@@ -41,67 +65,74 @@ header {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: red; /* User's marker color */
+  background-color: red;
   transform: translate(-50%, -50%);
 }
 
 .blue-marker {
   position: absolute;
-  width: 45px; /* Size of the marker image */
-  height: 45px; /* Size of the marker image */
+  width: 45px;
+  height: 45px;
   background-image: url('marker.png');
   background-size: cover;
   transform: translate(-50%, -50%);
-  animation: blink 2s ease-in infinite alternate; /* Blinking animation */
+  animation: blink 2s ease-in infinite alternate;
 }
+
 .progress {
-color: #54c36b; 
-background-color: #101319; 
-border: 3px solid #54c36b;
-border-radius: 0px;
+  color: #54c36b;
+  background-color: #101319;
+  border: 3px solid #54c36b;
+  border-radius: 0px;
 }
+
+.progress-bar {
+  background-color: #54c36b;
+  color: #101319;
+  width: 0;
+}
+
 canvas {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10; /* Ensure the canvas is above the map */
+  z-index: 10;
   margin-top: 80px;
 }
 
-/* @keyframes blink {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.1;
-  }
-} */
+.img-fluid {
+  height: 400px;
+  width: auto;
+}
 
-/* Trivia Modal Styling */
-#triviaModal {
+a:link, a:visited {
+  color: #c25555;
+}
+
+a:link:active, a:visited:active {
+  color: #c25555;
+}
+
+#instructions-modal {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  z-index: 9999;
+  background-color: #101319;
   color: #54c36b;
-
+  padding: 20px;
+  border: 3px solid #54c36b;
+  border-radius: 10px;
+  max-width: 80%;
+  text-align: left;
+  position: fixed;
+  top: 20%;
 }
 
-.modal-content {
-  background-color: #101319;
-  border: 3px #54c36b solid;
-  border-radius: 0px;
-
-  
-}
-
-.answer-option {
-  margin-top: 10px;
-  background-color: #101319;
-  border: 3px #54c36b solid;
-  font-weight: bold;
-}
-.modal-header {
-  border-bottom: #54c36b 2px solid;
+#start-game-btn {
+  margin-top: 20px;
+  background-color: #54c36b;
+  color: #101319;
   font-weight: bolder;
-}
-.close {
-color: #54c36b;
-font-weight: bolder;
-}
+} */
