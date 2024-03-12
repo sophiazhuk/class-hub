@@ -182,9 +182,47 @@
     }
 
     #instructions-modal li {
-      list-style-type:decimal ;
+      list-style-type: decimal;
       margin-top: 10px;
+      position: relative;
+    }
 
+
+    .flash {
+      animation-duration: 1200ms;
+      animation-name: blink;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      -webkit-animation: blink 1200ms infinite;
+      /* Safari and Chrome */
+    }
+
+    @keyframes blink {
+      0% {
+        color: #54c36b;
+      }
+
+      50% {
+        color: #c25555;
+      }
+
+      100% {
+        color: #54c36b;
+      }
+    }
+
+    @-webkit-keyframes blink {
+      0% {
+        color: #54c36b;
+      }
+
+      50% {
+        color: #c25555;
+      }
+
+      100% {
+        color: #54c36b;
+      }
     }
 
     #start-game-btn {
@@ -521,14 +559,18 @@
   </div>
 
   <div id="instructions-modal">
-    
+
     <ul>
-      <em><p>// Campus Trivia Rules</p></em>
-      <li>Click on the flashing marker on the map to answer trivia questions.</li>
+      <em>
+        <p>// Campus Trivia Rules</p>
+      </em>
+      <li>Click on the <span class="flash">flashing</span> marker on the map to answer trivia questions.</li>
       <li>Correct answers will progress the bar at the top.</li>
       <li>Your goal is to complete all 7 points.</li> <br>
     </ul>
-      <em><p>Good luck!</p></em>
+    <em>
+      <p>Good luck!</p>
+    </em>
     <button id="start-game-btn" class="btn btn-success" onclick="closeInstructions()">Start Game</button>
   </div>
 
