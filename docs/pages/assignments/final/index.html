@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Trivia</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <!-- <link rel="stylesheet" href="style.css"> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
@@ -174,10 +175,16 @@
       padding: 20px;
       border: 3px solid #54c36b;
       border-radius: 10px;
-      max-width: 80%;
+      max-width: 85%;
       text-align: left;
       position: fixed;
       top: 20%;
+    }
+
+    #instructions-modal li {
+      list-style-type:decimal ;
+      margin-top: 10px;
+
     }
 
     #start-game-btn {
@@ -187,90 +194,92 @@
       font-weight: bolder;
     }
   </style>
-  
-<script>
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Manually placed marker coordinates
-    const markers = [
-      { label: 'AW', top: 591.72, left: 192.942, order: 1 },
-      { label: 'Env', top: 503.87, left: 234.986, order: 2 },
-      { label: 'Makers', top: 445.3, left: 232.27, order: 3 },
-      { label: 'Gallery', top: 378.91, left: 240.916, order: 4 },
-      { label: 'Miller', top: 315.42, left: 255.444, order: 5 },
-      { label: 'Library', top: 222.687, left: 229.025, order: 6 },
-      { label: 'VU', top: 145.687, left: 199.025, order: 7 }
-    ];
+  <script>
 
-    // Display user marker on the map
-    const userMarker = document.createElement("div");
-    userMarker.className = "user-marker";
-    document.getElementById("map-container").appendChild(userMarker);
+    document.addEventListener("DOMContentLoaded", function () {
+      // Manually placed marker coordinates
+      const markers = [
+        { label: 'AW', top: 591.72, left: 192.942, order: 1 },
+        { label: 'Env', top: 503.87, left: 234.986, order: 2 },
+        { label: 'Makers', top: 445.3, left: 232.27, order: 3 },
+        { label: 'Gallery', top: 378.91, left: 240.916, order: 4 },
+        { label: 'Miller', top: 315.42, left: 255.444, order: 5 },
+        { label: 'Library', top: 222.687, left: 229.025, order: 6 },
+        { label: 'VU', top: 145.687, left: 199.025, order: 7 }
+      ];
 
-    // Add manually placed markers with 'marker.png' for specified locations
-    markers.forEach(marker => {
-      const markerElement = document.createElement("div");
-      markerElement.className = "blue-marker";
-      markerElement.style.top = marker.top + "px";
-      markerElement.style.left = marker.left + "px";
-      markerElement.title = marker.label;
-      markerElement.setAttribute('data-order', marker.order); // Set the order attribute
-      document.getElementById("map-container").appendChild(markerElement);
+      // Display user marker on the map
+      const userMarker = document.createElement("div");
+      userMarker.className = "user-marker";
+      document.getElementById("map-container").appendChild(userMarker);
 
-      // Update the marker images during initialization
-      markerElement.style.backgroundImage = 'url("marker-blink.gif")';
+      // Add manually placed markers with 'marker.png' for specified locations
+      markers.forEach(marker => {
+        const markerElement = document.createElement("div");
+        markerElement.className = "blue-marker";
+        markerElement.style.top = marker.top + "px";
+        markerElement.style.left = marker.left + "px";
+        markerElement.title = marker.label;
+        markerElement.setAttribute('data-order', marker.order); // Set the order attribute
+        document.getElementById("map-container").appendChild(markerElement);
 
-      markerElement.addEventListener("click", function () {
-        showTriviaQuestion(marker.label);
+        // Update the marker images during initialization
+        markerElement.style.backgroundImage = 'url("marker-blink.gif")';
+
+        markerElement.addEventListener("click", function () {
+          if (markerElement.style.backgroundImage.includes('marker-blink.gif')) {
+            showTriviaQuestion(marker.label);
+          }
+        });
       });
+
+      showInstructions();
+      setTimeout(function () {
+        updateMarkerImages();
+        updateMarkerImage();
+      }, 1000); // Delay the image update to allow time for initialization
     });
 
-    showInstructions();
-    setTimeout(function () {
-      updateMarkerImages();
-      updateMarkerImage();
-    }, 1000); // Delay the image update to allow time for initialization
-  });
-
-  function updateMarkerImages() {
-    var markers = document.querySelectorAll('.blue-marker');
-    markers.forEach(marker => {
-      var order = parseInt(marker.getAttribute('data-order'));
-      marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
-    });
-  }
-
-  function updateMarkerImage() {
-    var currentProgress = parseFloat(document.getElementById('progress-bar').style.width) || 0;
-    var nextMarkerOrder;
-
-    if (currentProgress > 89) {
-      nextMarkerOrder = 7;
-    } else if (currentProgress > 70) {
-      nextMarkerOrder = 6;
-    } else if (currentProgress > 56) {
-      nextMarkerOrder = 5;
-    } else if (currentProgress > 42) {
-      nextMarkerOrder = 4;
-    } else if (currentProgress > 28) {
-      nextMarkerOrder = 3;
-    } else if (currentProgress > 14) {
-      nextMarkerOrder = 2;
-    } else {
-      nextMarkerOrder = 1;
+    function updateMarkerImages() {
+      var markers = document.querySelectorAll('.blue-marker');
+      markers.forEach(marker => {
+        var order = parseInt(marker.getAttribute('data-order'));
+        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+      });
     }
 
-    // Change the background-image for the nextMarker
-    var markers = document.querySelectorAll('.blue-marker');
-    markers.forEach(marker => {
-      var order = parseInt(marker.getAttribute('data-order'));
-      if (order === nextMarkerOrder) {
-        marker.style.backgroundImage = 'url("marker-blink.gif")';
+    function updateMarkerImage() {
+      var currentProgress = parseFloat(document.getElementById('progress-bar').style.width) || 0;
+      var nextMarkerOrder;
+
+      if (currentProgress > 89) {
+        nextMarkerOrder = 7;
+      } else if (currentProgress > 70) {
+        nextMarkerOrder = 6;
+      } else if (currentProgress > 56) {
+        nextMarkerOrder = 5;
+      } else if (currentProgress > 42) {
+        nextMarkerOrder = 4;
+      } else if (currentProgress > 28) {
+        nextMarkerOrder = 3;
+      } else if (currentProgress > 14) {
+        nextMarkerOrder = 2;
       } else {
-        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+        nextMarkerOrder = 1;
       }
-    });
-  }
+
+      // Change the background-image for the nextMarker
+      var markers = document.querySelectorAll('.blue-marker');
+      markers.forEach(marker => {
+        var order = parseInt(marker.getAttribute('data-order'));
+        if (order === nextMarkerOrder) {
+          marker.style.backgroundImage = 'url("marker-blink.gif")';
+        } else {
+          marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+        }
+      });
+    }
 
 
     // Trivia Modal Logic
@@ -303,87 +312,87 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       $('#triviaModal').modal('show');
-    
-        setTimeout(function () {
-          updateMarkerImage();
+
+      setTimeout(function () {
+        updateMarkerImage();
       }, 1000);
     }
-function checkAnswer(clickedButton) {
-  if (clickedButton.dataset.correct === 'true') {
-    clickedButton.classList.remove('btn-secondary');
-    clickedButton.classList.add('btn-success');
+    function checkAnswer(clickedButton) {
+      if (clickedButton.dataset.correct === 'true') {
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-success');
 
-    var sectionLabel = clickedButton.dataset.section;
+        var sectionLabel = clickedButton.dataset.section;
 
-    var blurredSection = document.querySelector('.blue-marker[title="' + sectionLabel + '"]');
-    if (blurredSection) {
-      blurredSection.style.opacity = '0';
-      blurredSection.classList.add('marker-disabled'); // New class to disable click
-      updateProgressBar();
-      updateNextMarker(sectionLabel);
-    }
-  } else {
-    clickedButton.classList.remove('btn-secondary');
-    clickedButton.classList.add('btn-danger');
-
-    setTimeout(function () {
-      clickedButton.classList.remove('btn-danger');
-      clickedButton.classList.add('btn-secondary');
-    }, 1000);
-  }
-
-  setTimeout(function () {
-    $('#triviaModal').modal('hide');
-
-    var answerButtons = document.querySelectorAll('.answer-option');
-    answerButtons.forEach(function (button) {
-      button.classList.remove('btn-success', 'btn-danger');
-      button.classList.add('btn-secondary');
-      button.dataset.correct = '';
-    });
-  }, 1000);
-}
-
-function updateNextMarker(sectionLabel) {
-  var currentOrder = parseInt(document.querySelector('.blue-marker[title="' + sectionLabel + '"]').getAttribute('data-order'));
-  var nextMarkerOrder;
-
-  switch (currentOrder) {
-    case 1:
-      nextMarkerOrder = 2;
-      break;
-    case 2:
-      nextMarkerOrder = 3;
-      break;
-    case 3:
-      nextMarkerOrder = 4;
-      break;
-    case 4:
-      nextMarkerOrder = 5;
-      break;
-    case 5:
-      nextMarkerOrder = 6;
-      break;
-    case 6:
-      nextMarkerOrder = 7;
-      break;
-    default:
-      nextMarkerOrder = null;
-      break;
-  }
-
-  if (nextMarkerOrder !== null) {
-    var markers = document.querySelectorAll('.blue-marker');
-    markers.forEach(marker => {
-      var order = parseInt(marker.getAttribute('data-order'));
-      if (order === nextMarkerOrder) {
-        marker.style.backgroundImage = 'url("marker-blink.gif")';
+        var blurredSection = document.querySelector('.blue-marker[title="' + sectionLabel + '"]');
+        if (blurredSection) {
+          blurredSection.style.opacity = '0';
+          blurredSection.classList.add('marker-disabled'); // New class to disable click
+          updateProgressBar();
+          updateNextMarker(sectionLabel);
+        }
       } else {
-        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+        clickedButton.classList.remove('btn-secondary');
+        clickedButton.classList.add('btn-danger');
+
+        setTimeout(function () {
+          clickedButton.classList.remove('btn-danger');
+          clickedButton.classList.add('btn-secondary');
+        }, 1000);
       }
-    });
-  }
-}
+
+      setTimeout(function () {
+        $('#triviaModal').modal('hide');
+
+        var answerButtons = document.querySelectorAll('.answer-option');
+        answerButtons.forEach(function (button) {
+          button.classList.remove('btn-success', 'btn-danger');
+          button.classList.add('btn-secondary');
+          button.dataset.correct = '';
+        });
+      }, 1000);
+    }
+
+    function updateNextMarker(sectionLabel) {
+      var currentOrder = parseInt(document.querySelector('.blue-marker[title="' + sectionLabel + '"]').getAttribute('data-order'));
+      var nextMarkerOrder;
+
+      switch (currentOrder) {
+        case 1:
+          nextMarkerOrder = 2;
+          break;
+        case 2:
+          nextMarkerOrder = 3;
+          break;
+        case 3:
+          nextMarkerOrder = 4;
+          break;
+        case 4:
+          nextMarkerOrder = 5;
+          break;
+        case 5:
+          nextMarkerOrder = 6;
+          break;
+        case 6:
+          nextMarkerOrder = 7;
+          break;
+        default:
+          nextMarkerOrder = null;
+          break;
+      }
+
+      if (nextMarkerOrder !== null) {
+        var markers = document.querySelectorAll('.blue-marker');
+        markers.forEach(marker => {
+          var order = parseInt(marker.getAttribute('data-order'));
+          if (order === nextMarkerOrder) {
+            marker.style.backgroundImage = 'url("marker-blink.gif")';
+          } else {
+            marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+          }
+        });
+      }
+    }
 
 
     function updateProgressBar() {
@@ -469,7 +478,7 @@ function updateNextMarker(sectionLabel) {
 <body>
 
   <header class="navbar">
-    <span class="navbar-brand  h1">// Campus Map Game</span>
+    <span class="navbar-brand  h1">// Campus Trivia</span>
     <p>Click <a href="">here</a> for the instructions.</p>
     #########################################
   </header>
@@ -512,9 +521,14 @@ function updateNextMarker(sectionLabel) {
   </div>
 
   <div id="instructions-modal">
-    <p>Click the markers on the map to answer trivia questions and earn points.</p>
-    <p>Correct answers will progress the bar at the top, and your goal is to complete all 5 points.</p>
-    <p>Good luck!</p>
+    
+    <ul>
+      <em><p>// Campus Trivia Rules</p></em>
+      <li>Click on the flashing marker on the map to answer trivia questions.</li>
+      <li>Correct answers will progress the bar at the top.</li>
+      <li>Your goal is to complete all 7 points.</li> <br>
+    </ul>
+      <em><p>Good luck!</p></em>
     <button id="start-game-btn" class="btn btn-success" onclick="closeInstructions()">Start Game</button>
   </div>
 
