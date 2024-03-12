@@ -92,6 +92,7 @@
       background-size: cover;
       transform: translate(-50%, -50%);
       animation: blink 2s ease-in infinite alternate;
+      transition: background-image 0.5s ease;
     }
 
     .progress {
@@ -120,13 +121,16 @@
       width: 300px;
     }
 
-    a:link, a:visited {
+    a:link,
+    a:visited {
       color: #c25555;
     }
 
-    a:link:active, a:visited:active {
+    a:link:active,
+    a:visited:active {
       color: #c25555;
     }
+
     /* Trivia Modal Styling */
     #triviaModal {
       color: #54c36b;
@@ -182,42 +186,92 @@
       color: #101319;
       font-weight: bolder;
     }
-
   </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Manually placed marker coordinates
-      const markers = [
-        { label: 'AW', top: 591.72, left: 192.942 },
-        { label: 'Env', top: 503.87, left: 234.986 },
-        { label: 'Makers', top: 445.3, left: 232.27 },
-        { label: 'Gallery', top: 378.91, left: 240.916 },
-        { label: 'Miller', top: 315.42, left: 255.444 },
-        { label: 'Library', top: 222.687, left: 229.025 },
-        { label: 'VU', top: 85.101, left: 270.409 }
-      ];
+  
+<script>
 
-      // Display user marker on the map
-      const userMarker = document.createElement("div");
-      userMarker.className = "user-marker";
-      document.getElementById("map-container").appendChild(userMarker);
+document.addEventListener("DOMContentLoaded", function () {
+    // Manually placed marker coordinates
+    const markers = [
+      { label: 'AW', top: 591.72, left: 192.942, order: 1 },
+      { label: 'Env', top: 503.87, left: 234.986, order: 2 },
+      { label: 'Makers', top: 445.3, left: 232.27, order: 3 },
+      { label: 'Gallery', top: 378.91, left: 240.916, order: 4 },
+      { label: 'Miller', top: 315.42, left: 255.444, order: 5 },
+      { label: 'Library', top: 222.687, left: 229.025, order: 6 },
+      { label: 'VU', top: 145.687, left: 199.025, order: 7 }
+    ];
 
-      // Add manually placed markers with 'marker.png' for specified locations
-      markers.forEach(marker => {
-        const markerElement = document.createElement("div");
-        markerElement.className = "blue-marker";
-        markerElement.style.top = marker.top + "px";
-        markerElement.style.left = marker.left + "px";
-        markerElement.title = marker.label;
-        document.getElementById("map-container").appendChild(markerElement);
+    // Display user marker on the map
+    const userMarker = document.createElement("div");
+    userMarker.className = "user-marker";
+    document.getElementById("map-container").appendChild(userMarker);
 
-        markerElement.addEventListener("click", function () {
-          showTriviaQuestion(marker.label);
-        });
+    // Add manually placed markers with 'marker.png' for specified locations
+    markers.forEach(marker => {
+      const markerElement = document.createElement("div");
+      markerElement.className = "blue-marker";
+      markerElement.style.top = marker.top + "px";
+      markerElement.style.left = marker.left + "px";
+      markerElement.title = marker.label;
+      markerElement.setAttribute('data-order', marker.order); // Set the order attribute
+      document.getElementById("map-container").appendChild(markerElement);
+
+      // Update the marker images during initialization
+      markerElement.style.backgroundImage = 'url("marker-blink.gif")';
+
+      markerElement.addEventListener("click", function () {
+        showTriviaQuestion(marker.label);
       });
-
-      showInstructions();
     });
+
+    showInstructions();
+    setTimeout(function () {
+      updateMarkerImages();
+      updateMarkerImage();
+    }, 1000); // Delay the image update to allow time for initialization
+  });
+
+  function updateMarkerImages() {
+    var markers = document.querySelectorAll('.blue-marker');
+    markers.forEach(marker => {
+      var order = parseInt(marker.getAttribute('data-order'));
+      marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+    });
+  }
+
+  function updateMarkerImage() {
+    var currentProgress = parseFloat(document.getElementById('progress-bar').style.width) || 0;
+    var nextMarkerOrder;
+
+    if (currentProgress > 89) {
+      nextMarkerOrder = 7;
+    } else if (currentProgress > 70) {
+      nextMarkerOrder = 6;
+    } else if (currentProgress > 56) {
+      nextMarkerOrder = 5;
+    } else if (currentProgress > 42) {
+      nextMarkerOrder = 4;
+    } else if (currentProgress > 28) {
+      nextMarkerOrder = 3;
+    } else if (currentProgress > 14) {
+      nextMarkerOrder = 2;
+    } else {
+      nextMarkerOrder = 1;
+    }
+
+    // Change the background-image for the nextMarker
+    var markers = document.querySelectorAll('.blue-marker');
+    markers.forEach(marker => {
+      var order = parseInt(marker.getAttribute('data-order'));
+      if (order === nextMarkerOrder) {
+        marker.style.backgroundImage = 'url("marker-blink.gif")';
+      } else {
+        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+      }
+    });
+  }
+
 
     // Trivia Modal Logic
     function showTriviaQuestion(sectionLabel) {
@@ -225,11 +279,9 @@
 
       // Display image
       var imageContainer = document.getElementById('imageContainer');
-      if (imageContainer.classList.contains("no-image")) { 
-        document.getElementById("no-image").style.display = "none";
-      }
+
       imageContainer.innerHTML = `<img src="${sectionLabel.toLowerCase()}-q.png" alt="${sectionLabel} Image" class="img-fluid">`;
-      
+
 
       // Display question
       document.getElementById('questionText').textContent = questionAndAnswers.question;
@@ -251,40 +303,88 @@
       });
 
       $('#triviaModal').modal('show');
-    }
-
-    function checkAnswer(clickedButton) {
-      if (clickedButton.dataset.correct === 'true') {
-        clickedButton.classList.remove('btn-secondary');
-        clickedButton.classList.add('btn-success');
-
-        var blurredSection = document.querySelector('.blue-marker[title="' + clickedButton.dataset.section + '"]');
-        if (blurredSection) {
-          blurredSection.style.opacity = '0';
-          blurredSection.classList.add('marker-disabled'); // New class to disable click
-          updateProgressBar();
-        }
-      } else {
-        clickedButton.classList.remove('btn-secondary');
-        clickedButton.classList.add('btn-danger');
-
+    
         setTimeout(function () {
-          clickedButton.classList.remove('btn-danger');
-          clickedButton.classList.add('btn-secondary');
-        }, 1000);
-      }
-
-      setTimeout(function () {
-        $('#triviaModal').modal('hide');
-
-        var answerButtons = document.querySelectorAll('.answer-option');
-        answerButtons.forEach(function (button) {
-          button.classList.remove('btn-success', 'btn-danger');
-          button.classList.add('btn-secondary');
-          button.dataset.correct = '';
-        });
+          updateMarkerImage();
       }, 1000);
     }
+function checkAnswer(clickedButton) {
+  if (clickedButton.dataset.correct === 'true') {
+    clickedButton.classList.remove('btn-secondary');
+    clickedButton.classList.add('btn-success');
+
+    var sectionLabel = clickedButton.dataset.section;
+
+    var blurredSection = document.querySelector('.blue-marker[title="' + sectionLabel + '"]');
+    if (blurredSection) {
+      blurredSection.style.opacity = '0';
+      blurredSection.classList.add('marker-disabled'); // New class to disable click
+      updateProgressBar();
+      updateNextMarker(sectionLabel);
+    }
+  } else {
+    clickedButton.classList.remove('btn-secondary');
+    clickedButton.classList.add('btn-danger');
+
+    setTimeout(function () {
+      clickedButton.classList.remove('btn-danger');
+      clickedButton.classList.add('btn-secondary');
+    }, 1000);
+  }
+
+  setTimeout(function () {
+    $('#triviaModal').modal('hide');
+
+    var answerButtons = document.querySelectorAll('.answer-option');
+    answerButtons.forEach(function (button) {
+      button.classList.remove('btn-success', 'btn-danger');
+      button.classList.add('btn-secondary');
+      button.dataset.correct = '';
+    });
+  }, 1000);
+}
+
+function updateNextMarker(sectionLabel) {
+  var currentOrder = parseInt(document.querySelector('.blue-marker[title="' + sectionLabel + '"]').getAttribute('data-order'));
+  var nextMarkerOrder;
+
+  switch (currentOrder) {
+    case 1:
+      nextMarkerOrder = 2;
+      break;
+    case 2:
+      nextMarkerOrder = 3;
+      break;
+    case 3:
+      nextMarkerOrder = 4;
+      break;
+    case 4:
+      nextMarkerOrder = 5;
+      break;
+    case 5:
+      nextMarkerOrder = 6;
+      break;
+    case 6:
+      nextMarkerOrder = 7;
+      break;
+    default:
+      nextMarkerOrder = null;
+      break;
+  }
+
+  if (nextMarkerOrder !== null) {
+    var markers = document.querySelectorAll('.blue-marker');
+    markers.forEach(marker => {
+      var order = parseInt(marker.getAttribute('data-order'));
+      if (order === nextMarkerOrder) {
+        marker.style.backgroundImage = 'url("marker-blink.gif")';
+      } else {
+        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
+      }
+    });
+  }
+}
+
 
     function updateProgressBar() {
       var progressBar = document.getElementById('progress-bar');
@@ -292,13 +392,13 @@
       var markersCompleted = document.getElementById('markers-completed');
 
       var currentProgress = parseInt(progressBar.style.width) || 0;
-      var newProgress = Math.min(currentProgress + (100 / 5), 100); // Increment by 1/7th of total progress
+      var newProgress = Math.min(currentProgress + (100 / 6.5), 100); // Increment by 1/7th of total progress
 
       progressBar.style.width = newProgress + '%';
       progressPercent.textContent = newProgress.toFixed(2) + '%';
 
       var completedMarkers = document.querySelectorAll('.blue-marker.marker-disabled').length;
-      markersCompleted.textContent = completedMarkers + '/5 Points Completed';
+      markersCompleted.textContent = completedMarkers + '/7 Points Completed';
     }
 
     function getQuestionAndAnswersBySection(sectionLabel) {
@@ -353,7 +453,7 @@
           };
       }
     }
-  
+
     function showInstructions() {
       document.getElementById("instructions-modal").style.display = "flex";
     }
@@ -361,16 +461,16 @@
     function closeInstructions() {
       document.getElementById("instructions-modal").style.display = "none";
     }
-  
+
   </script>
-  
+
 </head>
 
 <body>
 
   <header class="navbar">
     <span class="navbar-brand  h1">// Campus Map Game</span>
-      <p>Click <a href="">here</a> for the instructions.</p>
+    <p>Click <a href="">here</a> for the instructions.</p>
     #########################################
   </header>
 
@@ -382,7 +482,7 @@
     </div>
     <div id="progress-text">
       <p class="m-0">Progress: <span id="progress-percent">0%</span></p>
-      <p class="m-0" id="markers-completed">0/5 Points Completed</p>
+      <p class="m-0" id="markers-completed">0/7 Points Completed</p>
     </div>
 
     <img id="campus-map" src="map3.webp" alt="Campus Map" class="img-fluid">
