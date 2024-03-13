@@ -25,7 +25,7 @@ header {
   position: relative;
   width: 390px;
   overflow: hidden;
-  height: 824px;
+  height: 688px;
 }
 
 #campus-map {
@@ -249,4 +249,14 @@ a:visited:active {
   top: 30px;
   left: 10px;
   width: 100%;
+}
+footer {
+  margin: 20px;
+  text-align: left;
+  display: flex;
+
+}
+footer p, a {
+  font-size: .75rem;
+  margin: 0px;
 }
