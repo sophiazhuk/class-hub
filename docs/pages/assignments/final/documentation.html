@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        * {
+            font-family:Arial, Helvetica, sans-serif;
+            background-color: #101319;
+            color: #54c36b ;
+            font-size: 1rem;
+        }
+        .body {
+            display: flex;
+            justify-content:left ;
+            margin: 50px;
+            line-height: 1.5 ;
+
+        }
+        .container {
+            width: 65%;
+            padding-top: 50px;
+        }
+        .body p {
+            font-size: 1.1rem;
+        }
+        h2 {
+            font-style: italic;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+            <div class="container">
+        <h1>Campus Trivia - Documentation</h1>
+        <h2>Description:</h2>
+        <p>The "Campus Trivia" project is a web-based game designed to engage users in a fun and interactive way while exploring the WWU campus. Utilizing HTML, CSS, JavaScript, and external libraries like Bootstrap, the project presents users with a map interface where they follow a path of markers representing different campus locations. Upon clicking a flashing marker, a trivia question related to that location pops up in a modal window. Users must answer the question by selecting one of the multiple-choice options. Correct answers advance the user's progress bar at the top of the screen, while incorrect answers prompt feedback and do not affect progress. The goal is to complete all 7 points by answering trivia questions correctly for each location. The project includes visual elements such as dynamic marker animations and instructional modal pop-ups to enhance user experience and engagement.</p>
+    
+    
+        <h2>// Phase 1: Planning</h2>
+        <p>For my final project, I wanted to build off of a previous assignment, Site-Specific Mobile Website. This was a quickly built up campus trivia game with a lot of bugs and subpar UX. However, I received a lot of interesting feedback from it so I wanted to build off of it. I used the logic of the trivia game combined with the design of my “People In Space” API integration project.</p>
+        <p>From the original project, I received valuable feedback from my peers and professor. Feedback included:</p>
+        <ul>
+            <li>Having a goal/purpose</li>
+            <li>Clear instructions</li>
+            <li>Feeling of progression</li>
+            <li>Reason for progression</li>
+            <li>Obscure trivia</li>
+            <li>Interactivity feedback</li>
+            <li>Aesthetics</li>
+        </ul>
+        <p>From this feedback I came up with the first low-fidelity wireframe.</p>
+    
+        <h2>// Phase 2: Design</h2>
+        <p>After coming up with an idea and analyzing feedback, I quickly got started on a sketched wireframe. To create the map, I used snazzymaps.com. Using this map stylizing tool, I was able to create an accurate map that matches the design and theme of the website.</p>
+        <p>The theme of the website is a pseudo-replication of the old style monochromatic terminals. These terminals commonly displayed only green on black. Now, it gives a sense of the classic Hollywood hacker vibe and Retrocomputing. I followed the 60, 30, 10 color rule with an off-black (#101319), a muted-neon green (#54c36b), and a faded red(#c25555).</p>
+    
+        <p>The flow of the website experience was designed as follows:</p>
+        <ul>
+            <li>Start screen
+                <ul>
+                    <li>Title</li>
+                    <li>Instructions</li>
+                    <li>Start button</li>
+                </ul>
+            </li>
+            <li>Map
+                <ul>
+                    <li>snazzymaps map</li>
+                    <li>Red markers on map</li>
+                    <li>Path between markers</li>
+                                <li>User tracker</li>
+                
+                    <li>Progress bar</li>
+                </ul>
+            </li>
+
+                
+            
+            <li>Trivia box
+                <ul>
+                    <li>Opened when marker is clicked</li>
+                    <li>Contains question relevant to site</li>
+                    <li>Obscure questions</li>
+                    <li>Hint system</li>
+                </ul>
+            </li>
+            <li>Finish page
+                <ul>
+                    <li>Celebratory confetti or fireworks</li>
+                    <li>Congratulatory message</li>
+                    <li>Maybe a time stamp?</li>
+                </ul>
+            </li>
+        </ul>
+    
+        <h2>// Phase 3: Development</h2>
+    
+        <p><strong>Tools Used:</strong> VSCode, GitHub, jQuery, Bootstrap, fireworks.js, snazzymaps</p>
+    
+        <p>Using these tools, I was able to create effects and functions that run the game. Bootstrap was helpful for making the website work well with mobile and creating the progress bar. jQuery was essential in making the website work and to create the modals. To implement a sense of progression and completion, fireworks.js helped create an explosion of fireworks as feedback to correct answers.</p>
+    
+        <h2>// Phase 4: Testing</h2>
+        <p>Before presenting the first draft, I hadn’t implemented certain features yet. This was just to get the overall idea across. The features not implemented included user tracking, paths between markers, and the starting page. I realized while presenting to class, that some of the features were either redundant or there were better alternatives.</p>
+        <p><strong>* User tracking:</strong> The point of this game was to make players wander and get familiar around campus. Although the campus was large, mapping the user’s location and markers to an image felt unnecessary for the small scale. That method of implementation might be more useful for larger areas like towns or cities. The use of flat, visual representation and manually placing markers made the process much easier. The mission of the game was unchanged while making development more efficient.</p>
+        <p><strong>* Paths between markers:</strong> Initially, I was going to add paths for the user to follow between markers. I tried this, then felt it was too visually busy. It also encouraged all users to follow the same path which I was not a fan of. I ended up replacing paths with blinking markers representing the order to visit. It was also much more visually appealing to look at after the change.</p>
+        <p><strong>* Start page:</strong> The plan was for the user to start on a completely separate page in which they will read instructions and press start. I changed this to a pop up box because I wanted the user to be able to reference the instructions whenever they please without restarting their progress.</p>
+    
+    </div>
+    </div>
+
+</body>
+</html>
