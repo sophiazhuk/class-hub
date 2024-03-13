@@ -2,13 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
     // Manually placed marker coordinates
     const markers = [
-      { label: 'AW', top: 591.72, left: 192.942, order: 1 },
-      { label: 'Env', top: 503.87, left: 234.986, order: 2 },
-      // { label: 'Makers', top: 445.3, left: 232.27, order: 3 },
-      { label: 'Gallery', top: 378.91, left: 240.916, order: 3 },
-      { label: 'Miller', top: 315.42, left: 255.444, order: 4 },
-      { label: 'Library', top: 222.687, left: 229.025, order: 5 },
-      { label: 'VU', top: 145.687, left: 199.025, order: 6 }
+      { label: 'aw', top: 591.72, left: 192.942, order: 1 },
+      { label: 'env', top: 503.87, left: 234.986, order: 2 },
+      // { label: 'makers', top: 445.3, left: 232.27, order: 3 },
+      { label: 'gallery', top: 378.91, left: 240.916, order: 3 },
+      { label: 'miller', top: 315.42, left: 255.444, order: 4 },
+      { label: 'library', top: 222.687, left: 229.025, order: 5 },
+      { label: 'vu', top: 145.687, left: 199.025, order: 6 }
     ];
 
     // Add manually placed markers with 'marker.png' for specified locations
@@ -243,43 +243,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getQuestionAndAnswersBySection(sectionLabel) {
     switch (sectionLabel) {
-      case 'AW':
+      case 'aw':
         return {
           question: 'What is the official name of the 6th floor of AW?',
           answers: ['Floor 6', 'Penthouse', 'Attic', 'Custodial Floor'],
           correctAnswer: 'Penthouse'
         };
-      case 'Env':
+      case 'env':
         return {
           question: 'These three-toed tracks were collected from 15 million year old lake deposits in Nevada. What creature made them?',
           answers: ['Small Dinosaur', 'Shore Bird', 'Flying Reptile', 'Sloth'],
           correctAnswer: 'Shore Bird'
         };
-      case 'Makers':
+      case 'makers':
         return {
           question: 'What is Makers Space?',
           answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
           correctAnswer: 'Answer 2'
         };
-      case 'Gallery':
+      case 'gallery':
         return {
           question: 'What is the name of the artist(s) who created this piece?',
           answers: ['Jackson Polys', 'Colectivo Los Ingtavidos', 'Scott Burton', 'Jyoti Duwadi'],
           correctAnswer: 'Colectivo Los Ingtavidos'
         };
-      case 'Miller':
+      case 'miller':
         return {
           question: 'Which country was this porcelain piece made?',
           answers: ['Vietnam', 'Mongolia', 'Thailand', 'Japan'],
           correctAnswer: 'Vietnam'
         };
-      case 'Library':
+      case 'library':
         return {
           question: 'From the display case, what is the book title of the Whatcom Reads Selection for 2011?',
           answers: ['Greenwood', 'Border Songs', 'Red Paint', 'Old School'],
           correctAnswer: 'Border Songs'
         };
-      case 'VU':
+      case 'vu':
         return {
           question: 'What is the price of Miss Vickies Spicy Dill Pickle Chips at this vending machine?',
           answers: ['$1.75', '$2.25', '$2.00', '$2.50'],
@@ -304,19 +304,19 @@ document.addEventListener("DOMContentLoaded", function () {
   
   function getHintBySection(sectionLabel) {
     switch (sectionLabel) {
-      case 'AW':
+      case 'aw':
         return 'Hint: Look for the floor plan on the wall.';
-      case 'Env':
+      case 'env':
         return 'Hint: Look on the 2nd floor.';
-      case 'Makers':
+      case 'makers':
         return 'Hint: Look in the corner of the room.';
-      case 'Gallery':
+      case 'gallery':
         return 'Hint: The art piece is located in one of the corners';
-      case 'Miller':
+      case 'miller':
         return 'Hint: The display is near the Study Abroad department on the second floor.';
-      case 'Library':
+      case 'library':
         return 'Hint: Display is located near the entrance';
-      case 'VU':
+      case 'vu':
         return 'Hint: Vending Machine is located in the back near the restrooms.';
       default:
         return 'Default Hint';
