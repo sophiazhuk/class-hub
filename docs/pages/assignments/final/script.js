@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display image
     var imageContainer = document.getElementById('imageContainer');
 
-    imageContainer.innerHTML = `<img src="${sectionLabel.toLowerCase()}-q.png" alt="${sectionLabel} Image" class="img-fluid">`;
+    imageContainer.innerHTML = `<img src="images/${sectionLabel.toLowerCase()}-q.png" alt="${sectionLabel} Image" class="img-fluid">`;
 
 
     // Display question
