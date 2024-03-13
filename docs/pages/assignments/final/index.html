@@ -6,510 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Campus Trivia</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="style.css"> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  
+  <!-- <script src="https://cdn.jsdelivr.net/npm/p5@1.9.1/lib/p5.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <!-- <script src="script.js"></script> -->
-
-
-  <style>
-    .marker-disabled {
-      pointer-events: none;
-    }
-
-    .btn {
-      width: 45%;
-    }
-
-    @font-face {
-      font-family: GlassTTY;
-      src: url(Glass_TTY_VT220.ttf);
-    }
-
-    * {
-      font-family: monospace;
-      font-size: 14px;
-    }
-
-    #progress-text {
-      color: #54c36b;
-      position: absolute;
-      top: 30px;
-      left: 10px;
-      width: 100%;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      overflow-x: hidden;
-      background-color: #101319;
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-    }
-
-    header {
-      background-color: #101319;
-      color: #54c36b;
-      text-align: center;
-      padding: 10px;
-      font-size: 16px;
-      width: 390px;
-    }
-
-    #map-container {
-      position: relative;
-      width: 390px;
-      overflow: hidden;
-      height: 824px;
-    }
-
-    #campus-map {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .user-marker {
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background-color: red;
-      transform: translate(-50%, -50%);
-    }
-
-    .blue-marker {
-      position: absolute;
-      width: 45px;
-      height: 45px;
-      background-image: url('marker.png');
-      background-size: cover;
-      transform: translate(-50%, -50%);
-      animation: blink 2s ease-in infinite alternate;
-      transition: background-image 0.5s ease;
-    }
-
-    .progress {
-      color: #54c36b;
-      background-color: #101319;
-      border: 3px solid #54c36b;
-      border-radius: 0px;
-    }
-
-    .progress-bar {
-      background-color: #54c36b;
-      color: #101319;
-      width: 0;
-    }
-
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      margin-top: 80px;
-    }
-
-    .img-fluid {
-      height: auto;
-      width: 300px;
-    }
-
-    a:link,
-    a:visited {
-      color: #c25555;
-    }
-
-    a:link:active,
-    a:visited:active {
-      color: #c25555;
-    }
-
-    /* Trivia Modal Styling */
-    #triviaModal {
-      color: #54c36b;
-
-    }
-
-    .modal-content {
-      background-color: #101319;
-      border: 3px #54c36b solid;
-      border-radius: 0px;
-
-
-    }
-
-    .answer-option {
-      margin-top: 10px;
-      background-color: #101319;
-      border: 3px #54c36b solid;
-      font-weight: bold;
-    }
-
-    .modal-header {
-      border-bottom: #54c36b 2px solid;
-      font-weight: bolder;
-    }
-
-    .close {
-      color: #54c36b;
-      font-weight: bolder;
-    }
-
-
-    #instructions-modal {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin: auto;
-      z-index: 9999;
-      background-color: #101319;
-      color: #54c36b;
-      padding: 20px;
-      border: 3px solid #54c36b;
-      border-radius: 10px;
-      max-width: 85%;
-      text-align: left;
-      position: fixed;
-      top: 20%;
-    }
-
-    #instructions-modal li {
-      list-style-type: decimal;
-      margin-top: 10px;
-      position: relative;
-    }
-
-
-    .flash {
-      animation-duration: 1200ms;
-      animation-name: blink;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-      -webkit-animation: blink 1200ms infinite;
-      /* Safari and Chrome */
-    }
-
-    @keyframes blink {
-      0% {
-        color: #54c36b;
-      }
-
-      50% {
-        color: #c25555;
-      }
-
-      100% {
-        color: #54c36b;
-      }
-    }
-
-    @-webkit-keyframes blink {
-      0% {
-        color: #54c36b;
-      }
-
-      50% {
-        color: #c25555;
-      }
-
-      100% {
-        color: #54c36b;
-      }
-    }
-
-    #start-game-btn {
-      margin-top: 20px;
-      background-color: #54c36b;
-      color: #101319;
-      font-weight: bolder;
-    }
-  </style>
-
-  <script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-      // Manually placed marker coordinates
-      const markers = [
-        { label: 'AW', top: 591.72, left: 192.942, order: 1 },
-        { label: 'Env', top: 503.87, left: 234.986, order: 2 },
-        { label: 'Makers', top: 445.3, left: 232.27, order: 3 },
-        { label: 'Gallery', top: 378.91, left: 240.916, order: 4 },
-        { label: 'Miller', top: 315.42, left: 255.444, order: 5 },
-        { label: 'Library', top: 222.687, left: 229.025, order: 6 },
-        { label: 'VU', top: 145.687, left: 199.025, order: 7 }
-      ];
-
-      // Display user marker on the map
-      const userMarker = document.createElement("div");
-      userMarker.className = "user-marker";
-      document.getElementById("map-container").appendChild(userMarker);
-
-      // Add manually placed markers with 'marker.png' for specified locations
-      markers.forEach(marker => {
-        const markerElement = document.createElement("div");
-        markerElement.className = "blue-marker";
-        markerElement.style.top = marker.top + "px";
-        markerElement.style.left = marker.left + "px";
-        markerElement.title = marker.label;
-        markerElement.setAttribute('data-order', marker.order); // Set the order attribute
-        document.getElementById("map-container").appendChild(markerElement);
-
-        // Update the marker images during initialization
-        markerElement.style.backgroundImage = 'url("marker-blink.gif")';
-
-        markerElement.addEventListener("click", function () {
-          if (markerElement.style.backgroundImage.includes('marker-blink.gif')) {
-            showTriviaQuestion(marker.label);
-          }
-        });
-      });
-
-      showInstructions();
-      setTimeout(function () {
-        updateMarkerImages();
-        updateMarkerImage();
-      }, 1000); // Delay the image update to allow time for initialization
-    });
-
-    function updateMarkerImages() {
-      var markers = document.querySelectorAll('.blue-marker');
-      markers.forEach(marker => {
-        var order = parseInt(marker.getAttribute('data-order'));
-        marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
-      });
-    }
-
-    function updateMarkerImage() {
-      var currentProgress = parseFloat(document.getElementById('progress-bar').style.width) || 0;
-      var nextMarkerOrder;
-
-      if (currentProgress > 89) {
-        nextMarkerOrder = 7;
-      } else if (currentProgress > 70) {
-        nextMarkerOrder = 6;
-      } else if (currentProgress > 56) {
-        nextMarkerOrder = 5;
-      } else if (currentProgress > 42) {
-        nextMarkerOrder = 4;
-      } else if (currentProgress > 28) {
-        nextMarkerOrder = 3;
-      } else if (currentProgress > 14) {
-        nextMarkerOrder = 2;
-      } else {
-        nextMarkerOrder = 1;
-      }
-
-      // Change the background-image for the nextMarker
-      var markers = document.querySelectorAll('.blue-marker');
-      markers.forEach(marker => {
-        var order = parseInt(marker.getAttribute('data-order'));
-        if (order === nextMarkerOrder) {
-          marker.style.backgroundImage = 'url("marker-blink.gif")';
-        } else {
-          marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
-        }
-      });
-    }
-
-
-    // Trivia Modal Logic
-    function showTriviaQuestion(sectionLabel) {
-      var questionAndAnswers = getQuestionAndAnswersBySection(sectionLabel);
-
-      // Display image
-      var imageContainer = document.getElementById('imageContainer');
-
-      imageContainer.innerHTML = `<img src="${sectionLabel.toLowerCase()}-q.png" alt="${sectionLabel} Image" class="img-fluid">`;
-
-
-      // Display question
-      document.getElementById('questionText').textContent = questionAndAnswers.question;
-
-      // Display answer options
-      var answerButtons = document.querySelectorAll('.answer-option');
-      var randomizedAnswers = questionAndAnswers.answers.slice().sort(() => Math.random() - 0.5);
-
-      answerButtons.forEach(function (button, i) {
-        button.textContent = randomizedAnswers[i];
-        button.classList.remove('btn-success', 'btn-danger');
-        button.classList.add('btn-secondary');
-        if (randomizedAnswers[i] === questionAndAnswers.correctAnswer) {
-          button.dataset.correct = true;
-          button.dataset.section = sectionLabel; // Store section label in the button dataset
-        } else {
-          button.dataset.correct = false;
-        }
-      });
-
-      $('#triviaModal').modal('show');
-
-      setTimeout(function () {
-        updateMarkerImage();
-      }, 1000);
-    }
-    function checkAnswer(clickedButton) {
-      if (clickedButton.dataset.correct === 'true') {
-        clickedButton.classList.remove('btn-secondary');
-        clickedButton.classList.add('btn-success');
-
-        var sectionLabel = clickedButton.dataset.section;
-
-        var blurredSection = document.querySelector('.blue-marker[title="' + sectionLabel + '"]');
-        if (blurredSection) {
-          blurredSection.style.opacity = '0';
-          blurredSection.classList.add('marker-disabled'); // New class to disable click
-          updateProgressBar();
-          updateNextMarker(sectionLabel);
-        }
-      } else {
-        clickedButton.classList.remove('btn-secondary');
-        clickedButton.classList.add('btn-danger');
-
-        setTimeout(function () {
-          clickedButton.classList.remove('btn-danger');
-          clickedButton.classList.add('btn-secondary');
-        }, 1000);
-      }
-
-      setTimeout(function () {
-        $('#triviaModal').modal('hide');
-
-        var answerButtons = document.querySelectorAll('.answer-option');
-        answerButtons.forEach(function (button) {
-          button.classList.remove('btn-success', 'btn-danger');
-          button.classList.add('btn-secondary');
-          button.dataset.correct = '';
-        });
-      }, 1000);
-    }
-
-    function updateNextMarker(sectionLabel) {
-      var currentOrder = parseInt(document.querySelector('.blue-marker[title="' + sectionLabel + '"]').getAttribute('data-order'));
-      var nextMarkerOrder;
-
-      switch (currentOrder) {
-        case 1:
-          nextMarkerOrder = 2;
-          break;
-        case 2:
-          nextMarkerOrder = 3;
-          break;
-        case 3:
-          nextMarkerOrder = 4;
-          break;
-        case 4:
-          nextMarkerOrder = 5;
-          break;
-        case 5:
-          nextMarkerOrder = 6;
-          break;
-        case 6:
-          nextMarkerOrder = 7;
-          break;
-        default:
-          nextMarkerOrder = null;
-          break;
-      }
-
-      if (nextMarkerOrder !== null) {
-        var markers = document.querySelectorAll('.blue-marker');
-        markers.forEach(marker => {
-          var order = parseInt(marker.getAttribute('data-order'));
-          if (order === nextMarkerOrder) {
-            marker.style.backgroundImage = 'url("marker-blink.gif")';
-          } else {
-            marker.style.backgroundImage = 'url("marker.png")'; // Reset other markers
-          }
-        });
-      }
-    }
-
-
-    function updateProgressBar() {
-      var progressBar = document.getElementById('progress-bar');
-      var progressPercent = document.getElementById('progress-percent');
-      var markersCompleted = document.getElementById('markers-completed');
-
-      var currentProgress = parseInt(progressBar.style.width) || 0;
-      var newProgress = Math.min(currentProgress + (100 / 6.5), 100); // Increment by 1/7th of total progress
-
-      progressBar.style.width = newProgress + '%';
-      progressPercent.textContent = newProgress.toFixed(2) + '%';
-
-      var completedMarkers = document.querySelectorAll('.blue-marker.marker-disabled').length;
-      markersCompleted.textContent = completedMarkers + '/7 Points Completed';
-    }
-
-    function getQuestionAndAnswersBySection(sectionLabel) {
-      switch (sectionLabel) {
-        case 'AW':
-          return {
-            question: 'What does AW stand for?',
-            answers: ['Academic West', 'Answer Won', 'Aye, watsup', 'Academic Will'],
-            correctAnswer: 'Academic West'
-          };
-        case 'Env':
-          return {
-            question: 'These three-toed tracks were collected from 15 million year old lake deposits in Nevada. What creature made them?',
-            answers: ['Small Dinosaur', 'Shore Bird', 'Flying Reptile', 'Sloth'],
-            correctAnswer: 'Shore Bird'
-          };
-        case 'Makers':
-          return {
-            question: 'What is Makers Space?',
-            answers: ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'],
-            correctAnswer: 'Answer 2'
-          };
-        case 'Gallery':
-          return {
-            question: 'Who painted this painting?',
-            answers: ['Answer 1', 'Answer 2', 'an artist', 'Answer 4'],
-            correctAnswer: 'an artist'
-          };
-        case 'Miller':
-          return {
-            question: 'What they sell at cafe',
-            answers: ['Answer 1', 'Answer 2', 'coffee', 'Answer 4'],
-            correctAnswer: 'coffee'
-          };
-        case 'Library':
-          return {
-            question: 'What food place is located in this building?',
-            answers: ['Freshens', 'Subway', 'Zoes Bagels', 'Starbucks'],
-            correctAnswer: 'Zoes Bagels'
-          };
-        case 'VU':
-          return {
-            question: 'What food item is missing from this vending machine?',
-            answers: ['Doritos', 'Miss Vickies', 'Tims', 'Sun Chips'],
-            correctAnswer: 'Miss Vickies'
-          };
-        default:
-          return {
-            question: 'Default Question',
-            answers: ['Correct', 'Option 2', 'Option 3', 'Option 4'],
-            correctAnswer: 'Correct'
-          };
-      }
-    }
-
-    function showInstructions() {
-      document.getElementById("instructions-modal").style.display = "flex";
-    }
-
-    function closeInstructions() {
-      document.getElementById("instructions-modal").style.display = "none";
-    }
-
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
 
 </head>
 
@@ -529,26 +33,31 @@
     </div>
     <div id="progress-text">
       <p class="m-0">Progress: <span id="progress-percent">0%</span></p>
-      <p class="m-0" id="markers-completed">0/7 Points Completed</p>
+      <p class="m-0" id="markers-completed">0/6 Points Completed</p>
     </div>
 
     <img id="campus-map" src="map3.webp" alt="Campus Map" class="img-fluid">
   </div>
+  <div id="emitter"></div>
 
-  <!-- Trivia Modal -->
+  
   <div class="modal fade" id="triviaModal" tabindex="-1" role="dialog" aria-labelledby="triviaModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="triviaModalLabel">Trivia Question</h5>
+
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div id="imageContainer" class="text-center mb-3"></div> <!-- Container for the image -->
+          <img id="hint-icon" src="hint-icon.svg" alt="Hint Icon" style="cursor: pointer; width: 30px; height: 30px;" data-toggle="tooltip" title="Click for hint">
+          <div id="imageContainer" class="text-center mb-3"></div>
           <p id="questionText"></p>
+          <p id="hintText" style="display: none;"></p> <!-- Hint text -->
+
           <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
           <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
           <button class="btn btn-secondary answer-option" onclick="checkAnswer(this)"></button>
@@ -566,13 +75,29 @@
       </em>
       <li>Click on the <span class="flash">flashing</span> marker on the map to answer trivia questions.</li>
       <li>Correct answers will progress the bar at the top.</li>
-      <li>Your goal is to complete all 7 points.</li> <br>
+      <li>Your goal is to complete all 6 points.</li> <br>
     </ul>
     <em>
       <p>Good luck!</p>
     </em>
     <button id="start-game-btn" class="btn btn-success" onclick="closeInstructions()">Start Game</button>
   </div>
+
+  <div class="modal fade" id="endingModal" tabindex="-1" role="dialog" aria-labelledby="endingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="endingModalLabel">Congratulations!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Congratulations! You completed Campus Trivia. You know your way around WWU.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 
