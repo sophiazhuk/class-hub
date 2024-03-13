@@ -270,7 +270,7 @@ footer {
   display: flex;
 
 }
-footer p, a {
+footer p, footer a {
   font-size: .75rem;
   margin: 0px;
 }
