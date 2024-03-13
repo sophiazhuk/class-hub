@@ -20,7 +20,7 @@
 
         }
         .container {
-            width: 65%;
+            width: 900px;
             padding-top: 50px;
         }
         .body p {
@@ -30,11 +30,32 @@
             font-style: italic;
             margin-top: 2rem;
         }
+        img {
+            height: 300px;
+            padding: 5px;
+            border: dotted 3px #54c36b;
+            margin: 0px 10px;
+        }
+        html::-webkit-scrollbar {
+            width: 18px;
+        }
+        
+        html::-webkit-scrollbar-track {
+            background-color: transparent;
+            border: 1.5px solid rgb(93, 202, 93);
+        }
+        
+        html::-webkit-scrollbar-thumb {
+            background-color: rgb(93, 202, 93);
+            /* border: 2px solid rgb(16, 19, 25); */
+        }
     </style>
 </head>
 <body>
     <div class="body">
             <div class="container">
+
+        <p><a href="index.html">< Go Back</a></p>
         <h1>Campus Trivia - Documentation</h1>
         <a href="https://docs.google.com/document/d/1Fes6JrHghkERjjEgHdMiCDOaj4dICrsqnxGCzANgHn4/edit?usp=sharing">Documentation (Google Docs)</a>
         <h2>Description:</h2>
@@ -43,6 +64,8 @@
     
         <h2>// Phase 1: Planning</h2>
         <p>For my final project, I wanted to build off of a previous assignment, Site-Specific Mobile Website. This was a quickly built up campus trivia game with a lot of bugs and subpar UX. However, I received a lot of interesting feedback from it so I wanted to build off of it. I used the logic of the trivia game combined with the design of my “People In Space” API integration project.</p>
+        <img src="documentation/space.png" alt="">
+        <img src="documentation/pt1.png" alt="">
         <p>From the original project, I received valuable feedback from my peers and professor. Feedback included:</p>
         <ul>
             <li>Having a goal/purpose</li>
@@ -54,7 +77,7 @@
             <li>Aesthetics</li>
         </ul>
         <p>From this feedback I came up with the first low-fidelity wireframe.</p>
-    
+
         <h2>// Phase 2: Design</h2>
         <p>After coming up with an idea and analyzing feedback, I quickly got started on a sketched wireframe. To create the map, I used snazzymaps.com. Using this map stylizing tool, I was able to create an accurate map that matches the design and theme of the website.</p>
         <p>The theme of the website is a pseudo-replication of the old style monochromatic terminals. These terminals commonly displayed only green on black. Now, it gives a sense of the classic Hollywood hacker vibe and Retrocomputing. I followed the 60, 30, 10 color rule with an off-black (#101319), a muted-neon green (#54c36b), and a faded red(#c25555).</p>
@@ -97,7 +120,8 @@
                 </ul>
             </li>
         </ul>
-    
+        <img src="documentation/lofi1.png" alt="">
+        <img src="documentation/lofi2.png" alt="">
         <h2>// Phase 3: Development</h2>
     
         <p><strong>Tools Used:</strong> VSCode, GitHub, jQuery, Bootstrap, fireworks.js, snazzymaps</p>

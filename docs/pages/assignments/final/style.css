@@ -211,6 +211,20 @@ a:visited:active {
   /*performance optimization*/
 }
 
+html::-webkit-scrollbar {
+  width: 18px;
+}
+
+html::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: 1.5px solid rgb(93, 202, 93);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: rgb(93, 202, 93);
+  /* border: 2px solid rgb(16, 19, 25); */
+}
+
 /* confetti end */
 
 
